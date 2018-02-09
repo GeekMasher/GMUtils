@@ -1,0 +1,8 @@
+{
+    "paths": {
+        "dir-tmp": {
+            "path": "/tmp/GM/",
+            "create": true
+        }
+    }
+}
