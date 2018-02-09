@@ -7,6 +7,9 @@ from gmutils.utils.paths import Paths
 class Config:
     ENV = 'TEST'
 
+    HALT = False
+    THREADS = []
+
     paths = Paths()
 
     @staticmethod
@@ -38,3 +41,15 @@ class Config:
             'TEST', 'TESTING', 'DEV', 'DEVELOPMENT'
         ]
         return True if Config.ENV.upper() in test_strings else False
+
+    @staticmethod
+    def haltThreads():
+        """ This function is used to stop all registered threads added to the
+        `Config.THREADS` list. This will set the `Config.HALT` boolean to True
+        which should make stop threads from executing if they are using the
+        `helpme_thread` wrappers.
+        """
+        Config.HALT = True
+
+        for thread in Config.THREADS:
+            thread.wait(timeout=5)
