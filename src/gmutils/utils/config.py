@@ -43,7 +43,7 @@ class Config:
         return True if Config.ENV.upper() in test_strings else False
 
     @staticmethod
-    def haltThreads():
+    def haltThreads(name=None):
         """ This function is used to stop all registered threads added to the
         `Config.THREADS` list. This will set the `Config.HALT` boolean to True
         which should make stop threads from executing if they are using the
