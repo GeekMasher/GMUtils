@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-from time import sleep
+import time
+import threading
 
 from gmutils.utils.config import Config
 
@@ -26,12 +27,25 @@ def createThreads(name, thread_count=1, waitfor=0):
     :param waitfor: The wait timer between function execution
     :type waitfor: type double
     """
-    def thread_wrapper(func):
-
+    
+    def thread_wrapper(func):       
         def thread_call(*args, **kwargs):
+            ret_val = None
             while not Config.HALT:
-                sleep(waitfor)
-                return func(*args, **kwargs)
+                time.sleep(waitfor)
+                ret_val = func(*args, **kwargs)
+            
+            return ret_val
+
+        for thread_id in range(1, thread_count+1):
+            name_thread = '{}-{:02d}'.format(name, thread_id)
+            
+            new_thread = threading.Thread(
+                name=name_thread, group=None, target=thread_call
+            )
+
+            new_thread.start()
+            Config.THREADS.append(new_thread)
 
         return thread_call
     return thread_wrapper

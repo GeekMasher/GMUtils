@@ -49,7 +49,10 @@ class Config:
         which should make stop threads from executing if they are using the
         `helpme_thread` wrappers.
         """
+        # TODO: add support for `name` halting functionality
         Config.HALT = True
 
         for thread in Config.THREADS:
-            thread.wait(timeout=5)
+            thread.join(timeout=5)
+
+        Config.THREADS = []
