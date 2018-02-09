@@ -17,7 +17,7 @@ class Paths:
         if hasattr(__project__, '__file__'):
             # Add standard project paths
             self.add(
-                'project', abspath(dirname(__project__)),
+                'project', abspath(dirname(__project__.__file__)),
                 directory=True
             )
             self.add(
@@ -40,7 +40,7 @@ class Paths:
 
             self.add(key, value)
 
-    def add(self, name, *paths, **kargvs):
+    def add(self, name, path, **kargvs):
         """
         """
 
@@ -56,12 +56,13 @@ class Paths:
         if name.startswith('dir-') or name.startswith('dir_'):
             directory = True
 
-        if create and not directory:
+
+        if kargvs.get('create') and not kargvs.get('directory'):
             # if the file doesn't exist, create it
             if not exists(path):
                 with open(path, 'w') as tmp_file:
                     tmp_file.write("")
-        elif create and directory:
+        elif kargvs.get('create') and kargvs.get('directory'):
             # if the dir doesn't exist, create it
             if not exists(path):
                 makedirs(path)
