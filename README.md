@@ -1,7 +1,7 @@
 # GMUtils
 GeekMasher's Open Source Utilities Python Library
 
-
+![GeekMasher GMUtils Banner](./docs/assets/banner.png)
 
 ## Unit tests
 
