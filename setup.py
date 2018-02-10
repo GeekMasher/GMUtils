@@ -38,10 +38,6 @@ setup(
     packages=find_packages(__SRC__),
     package_dir={'':'src'},
 
-    package_data={
-        '': ['*.json'],
-        'data': ['*.json'],
-    },
     exclude_package_data={
         '': ['README.md']
     },
