@@ -10,6 +10,8 @@ class Config:
     HALT = False
     THREADS = []
 
+    quite = False
+
     paths = Paths()
 
     @staticmethod
