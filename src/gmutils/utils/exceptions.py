@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 class GMException(Exception):
-    pass
+    """ Generic Exception
+    """
 
 class GMSecurity(Exception):
-    pass
+    """ When security issues occurs inside GMUtils, this will be thrown
+    """
