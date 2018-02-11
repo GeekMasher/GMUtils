@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
-from os import makedirs
+from os import makedirs, getcwd
 from os.path import exists, join, abspath, dirname, isdir
 from sys import modules
 from mimetypes import MimeTypes
 
-from gmutils.utils.exceptions import GMException
+from gmutils.utils.exceptions import GMException, GMSecurity
 
 import logging
 
@@ -24,6 +24,9 @@ class Paths:
         __project__ = modules['__main__']
         if hasattr(__project__, '__file__'):
             # Add standard project paths
+            self.add(
+                'cwd', getcwd(), directory=True
+            )
             self.add(
                 'project', abspath(dirname(__project__.__file__)),
                 directory=True
@@ -99,10 +102,10 @@ class Paths:
         for key, value in kargvs.items():
             if key.startswith('_') or OPTIONS.get(key) is None:
                 raise GMException('Unknown key supplied: ' + str(key))
-            if isinstance(path, type(OPTIONS.get(key))):
+            if not isinstance(value, type(OPTIONS.get(key))):
                 raise GMException(
-                    'Value is of unknown type: {} != {}'.format(
-                        type(OPTIONS.get(key)), type(path)
+                    'Value is of unknown type for `{}`: {} != {}'.format(
+                        key, type(value), type(OPTIONS.get(key))
                     )
                 )
             OPTIONS[key] = value
@@ -128,7 +131,7 @@ class Paths:
             if not exists(path):
                 raise GMException('The path being added is required to exist')
 
-        if OPTIONS['mime'] != '':
+        if OPTIONS['_exists'] and OPTIONS['mime'] != '':
             Paths.checkMime(path, OPTIONS['mime'])
 
         if OPTIONS['create'] and not OPTIONS['_exists']:
@@ -179,7 +182,7 @@ class Paths:
 
     @staticmethod
     def join(root, *paths):
-        pass
+        return join(root, *paths)
 
     @staticmethod
     def checkMime(path, mime=None):
@@ -188,11 +191,14 @@ class Paths:
 
         if mime is not None:
             if mime != mime_type:
-                raise GMException(
-                    'The file provided is not of the expected type: {}' + mime
+                raise GMSecurity(
+                    'The file provided is not of the expected type: {} != {}'.format(
+                        mime_type, mime
+                    )
                 )
         else:
             return mime_type
+        return True
 
     def __dict__(self):
         return Paths.__PATHS__

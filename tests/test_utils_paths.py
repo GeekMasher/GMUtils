@@ -73,6 +73,27 @@ class UtilsPathsTest(unittest.TestCase):
         with self.assertRaises(gmutils.utils.exceptions.GMException) as context:
             self.paths.add('test_04_1', '/tmp/gmutils/random_path/', required=True)
 
+    def test_06_mime(self):
+        self.paths.add(
+            'test_06', Paths.join(self.paths.get('cwd'), 'tests', 'test-data')
+        )
+
+        self.assertIsNotNone(self.paths.get('test_06'))
+        self.assertTrue(os.path.exists(self.paths.get('test_06')))
+
+        self.paths.add(
+            'test_06_json',
+            Paths.join(self.paths.get('test_06'), 'testfile.json'),
+            mime='application/json'
+        )
+
+        with self.assertRaises(gmutils.utils.exceptions.GMSecurity) as context:
+            self.paths.add(
+                'test_06_xml',
+                Paths.join(self.paths.get('test_06'), 'testfile.xml'),
+                mime='not/x_m_l'
+            )
+
     def test_07_directory(self):
         self.paths.add('test_07', '/tmp/gmutils', directory=True)
 
