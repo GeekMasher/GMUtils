@@ -60,7 +60,6 @@ class Paths:
             if name != '':
                 self.add(name, **options)
 
-
     def add(self, name, path=None, **kargvs):
         """ The add function allows developers to add paths for their project,
         allowing many options for the developer to use.
@@ -133,7 +132,6 @@ class Paths:
         OPTIONS['path'] = path
         Paths.__PATHS__[name] = OPTIONS
 
-
     def get(self, name):
         """ This function allows you to get a path/resource by name that has been registered
 
@@ -153,6 +151,16 @@ class Paths:
         if Paths.__PATHS__.get(name):
             return Paths.__PATHS__[name]
         return None
+
+    def remove(self, name):
+        """ The remove function deletes a path by name
+        :param name: Name of the path that you want to delete
+        :type name: type str
+        """
+        if Paths.__PATHS__.get(name):
+            Paths.__PATHS__.pop(name)
+        else:
+            raise GMException('Path does not exist; {}'.format(name))
 
     @staticmethod
     def create(file, is_directory=False):

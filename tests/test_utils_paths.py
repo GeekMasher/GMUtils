@@ -9,7 +9,6 @@ from gmutils import Config
 from gmutils.utils.paths import Paths
 
 
-
 class UtilsPathsTest(unittest.TestCase):
 
     def setUp(self):
@@ -70,3 +69,13 @@ class UtilsPathsTest(unittest.TestCase):
         self.assertTrue(full_results['required'])
 
         # TODO: check for when the required file doesn't match
+
+
+    def test_10_remove(self):
+        self.paths.add('test_10', '/random/path/to/file.txt')
+
+        self.assertTrue(self.paths.get('test_10'))
+
+        self.paths.remove('test_10')
+        self.assertFalse(self.paths.get('test_10'))
+
