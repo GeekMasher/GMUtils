@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
+from os import makedirs
 from os.path import exists, join, abspath, dirname
 from sys import modules
+from mimetypes import MimeTypes
+
+from gmutils.utils.exceptions import GMException
 
 import logging
 
@@ -10,8 +14,12 @@ class Paths:
     __PATHS__ = {}
 
     def __init__(self, **paths):
+        """The Paths() class supplies Utils with an interface to set, get and
+        other functionality to GMUtils.s
         """
-        """
+        # Defaults:
+        self.duplications = False
+        self.security_checks = True
 
         __project__ = modules['__main__']
         if hasattr(__project__, '__file__'):
@@ -31,53 +39,146 @@ class Paths:
 
         self.load(**paths)
 
-    def load(self, **paths):
-        """
-        """
-        for key, value in paths.items():
-            if key.startswith('_'):
-                continue
+    def load(self, **load_paths):
+        """ The Path.load() function is used for loads all the projects predetermined
+        path variables. Normally these are defined in the projects `config.json` file.
 
-            self.add(key, value)
-
-    def add(self, name, path, **kargvs):
+        "name": {
+            "path": "/path/to/the/file.ext",
+            "create": bool,
+            "required": bool,
+            "directory": bool
+            "mime": "file/mime"
+        }
         """
+        for name, options in load_paths.items():
+            for key, value in options.items():
+                if key.startswith('_'):
+                    continue
+                options[key] = value
+
+            if name != '':
+                self.add(name, **options)
+
+
+    def add(self, name, path=None, **kargvs):
+        """ The add function allows developers to add paths for their project,
+        allowing many options for the developer to use.
+
+        :param name: The name of the resource
+        :type name: type str
+
+        :param path: The path or location to a resource
+        :type path: type str 
+
+        :param required: The `required` paramater allows the developer to make sure that the
+        file/dir exists before using it. An example of this is to check if a
+        config file exists, if it doesn't an exception will be raised.
+        :type required: type boolean
+
+        :param create: The `create` parameter will create the file for the user if the file doesn't exist already.
+        :type create: type boolean
+
+        :param directory: The `directory` flag is set when a developer wants to create/use the path as a directory.
+        :type directory: type boolean
+
+        :param mime: The `mime` paramater allows for the developer to quickly check the file type before its used.
+        An example of this is if you are expecting a JSON file, using 'application/json' will make
+        sure that the correct files are used without the developer having to write any more code.
+        :type mime: type str
         """
+        OPTIONS = {
+            '_exists': False,
+            'required': False,
+            'create': False,
+            'directory': False,
+            'mime': ''
+        }
 
-        if name.startswith('_'):
-            raise Exception('Unallowed private path being set')
+        # Set options from kargvs
+        for key, value in kargvs.items():
+            if key.startswith('_') or OPTIONS.get(key) is None:
+                raise GMException('Unknown key supplied: ' + str(key))
+            if isinstance(path, type(OPTIONS.get(key))):
+                raise GMException(
+                    'Value is of unknown type: {} != {}'.format(
+                        type(OPTIONS.get(key)), type(path)
+                    )
+                )
+            OPTIONS[key] = value
 
+        # Options setters
+        if name.startswith('dir-') or name.startswith('dir_'):
+            OPTIONS['directory'] = True
+
+        if exists(path):
+            OPTIONS['_exists'] = True
+
+        # Log that the path is being overwritten
         if Paths.__PATHS__.get(name):
             logging.info("PATHS: overridding key `{}`".format(name))
 
-        Paths.__PATHS__[name] = path
-
-        # is DIR
-        if name.startswith('dir-') or name.startswith('dir_'):
-            directory = True
-
-
-        if kargvs.get('create') and not kargvs.get('directory'):
-            # if the file doesn't exist, create it
+        # Perform actions
+        if OPTIONS['required']:
             if not exists(path):
-                with open(path, 'w') as tmp_file:
-                    tmp_file.write("")
-        elif kargvs.get('create') and kargvs.get('directory'):
-            # if the dir doesn't exist, create it
-            if not exists(path):
-                makedirs(path)
+                raise GMException('The file path is required to exist')
 
-    def _parseAndValidateAddData(self, data):
-        return_data = {}
+        if OPTIONS['mime'] != '':
+            Paths.checkMime(path, OPTIONS['mime'])
 
+        if OPTIONS['create']:
+            Paths.create(path, is_directory=OPTIONS['directory'])
 
+        # finally, add new path in the __PATHS__ dict
+        OPTIONS['path'] = path
+        Paths.__PATHS__[name] = OPTIONS
 
-        return return_data
 
     def get(self, name):
+        """ This function allows you to get a path/resource by name that has been registered
+
+        :param name: The name that you can to get
+        :type name: type str
         """
+        if Paths.__PATHS__.get(name):
+            return Paths.__PATHS__[name]['path']
+        return None
+
+    def getFull(self, name):
+        """ This function will get all the details associated to a path.
+
+        :param name: The name that you can to get
+        :type name: type str
         """
         if Paths.__PATHS__.get(name):
             return Paths.__PATHS__[name]
         return None
 
+    @staticmethod
+    def create(file, is_directory=False):
+        # if the file doesn't exist, create it
+        if not is_directory:
+            makedirs(file)
+        else:
+            with open(file, 'w') as tmp_file:
+                tmp_file.write("")
+
+    @staticmethod
+    def join(root, *paths):
+        pass
+
+    @staticmethod
+    def checkMime(path, mime=None):
+        """ Checking file mime """
+        mime_type, _strict = MimeTypes().guess_type(path)
+
+        if mime is not None:
+            if mime != mime_type:
+                raise GMException(
+                    'The file provided is not of the expected type: {}' + mime
+                )
+        else:
+            return mime_type
+
+    def __dict__(self):
+        return Paths.__PATHS__

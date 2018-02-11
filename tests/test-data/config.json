@@ -1,0 +1,14 @@
+{
+    "ENV": "testing",
+
+    "paths": {
+        "config": {
+            "path": "/tmp/gm.config.json",
+            "create": true 
+        },
+        "dir-tmp": {
+            "path": "/tmp/GM/",
+            "create": true
+        }
+    }
+}
