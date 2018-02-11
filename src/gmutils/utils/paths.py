@@ -125,7 +125,7 @@ class Paths:
         if OPTIONS['mime'] != '':
             Paths.checkMime(path, OPTIONS['mime'])
 
-        if OPTIONS['create']:
+        if OPTIONS['create'] and not OPTIONS['_exists']:
             Paths.create(path, is_directory=OPTIONS['directory'])
 
         # finally, add new path in the __PATHS__ dict
