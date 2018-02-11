@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from os import makedirs
-from os.path import exists, join, abspath, dirname
+from os.path import exists, join, abspath, dirname, isdir
 from sys import modules
 from mimetypes import MimeTypes
 
@@ -13,13 +13,13 @@ import logging
 class Paths:
     __PATHS__ = {}
 
-    def __init__(self, **paths):
+    def __init__(self, **kargvs):
         """The Paths() class supplies Utils with an interface to set, get and
         other functionality to GMUtils.s
         """
         # Defaults:
-        self.duplications = False
-        self.security_checks = True
+        self.duplications = kargvs.get('duplications', False)
+        self.security_checks = kargvs.get('security_checks', True)
 
         __project__ = modules['__main__']
         if hasattr(__project__, '__file__'):
@@ -37,7 +37,8 @@ class Paths:
                 directory=True
             )
 
-        self.load(**paths)
+        if kargvs.get('paths'):
+            self.load(**kargvs.get('paths'))
 
     def load(self, **load_paths):
         """ The Path.load() function is used for loads all the projects predetermined
@@ -60,7 +61,7 @@ class Paths:
             if name != '':
                 self.add(name, **options)
 
-    def add(self, name, path=None, **kargvs):
+    def add(self, name, path, **kargvs):
         """ The add function allows developers to add paths for their project,
         allowing many options for the developer to use.
 
@@ -107,11 +108,16 @@ class Paths:
             OPTIONS[key] = value
 
         # Options setters
+        if not self.duplications and Paths.__PATHS__.get(name):
+            raise GMException('The Path name already exist')
+
         if name.startswith('dir-') or name.startswith('dir_'):
             OPTIONS['directory'] = True
 
         if exists(path):
             OPTIONS['_exists'] = True
+            if isdir(path):
+                OPTIONS['directory'] = True
 
         # Log that the path is being overwritten
         if Paths.__PATHS__.get(name):
@@ -120,7 +126,7 @@ class Paths:
         # Perform actions
         if OPTIONS['required']:
             if not exists(path):
-                raise GMException('The file path is required to exist')
+                raise GMException('The path being added is required to exist')
 
         if OPTIONS['mime'] != '':
             Paths.checkMime(path, OPTIONS['mime'])

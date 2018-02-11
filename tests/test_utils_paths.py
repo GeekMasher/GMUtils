@@ -5,6 +5,8 @@ import unittest
 import threading
 import time
 
+import gmutils
+
 from gmutils import Config
 from gmutils.utils.paths import Paths
 
@@ -12,7 +14,10 @@ from gmutils.utils.paths import Paths
 class UtilsPathsTest(unittest.TestCase):
 
     def setUp(self):
-        self.paths = Paths()
+        self.paths = Paths(
+            duplications=True
+        )
+        self.paths.duplications = False
 
     def tearDown(self):
         pass
@@ -24,30 +29,33 @@ class UtilsPathsTest(unittest.TestCase):
         self.assertIsNotNone(self.paths.get('project_libs'))
         self.assertIsNotNone(self.paths.get('project_data'))
 
-    def test_02_load_assumefile(self):
+    def test_02_load(self):
         
         self.paths.load(
-            test_01={
-                'path': '/tmp/gmutils'
+            gmutils_tmp={
+                'path': '/tmp/gmutils/'
+            },
+            gmutils_tmpfile={
+                'path': '/tmp/gmutils/test.txt'
             }
         )
 
-        self.assertEqual(self.paths.get('test_01'), '/tmp/gmutils')
+        self.assertEqual(self.paths.get('gmutils_tmpfile'), '/tmp/gmutils/test.txt')
+        self.assertEqual(self.paths.get('gmutils_tmp'), '/tmp/gmutils/')
 
-        full_results = self.paths.getFull('test_01')
+        full_results_01 = self.paths.getFull('gmutils_tmpfile')
+        self.assertFalse(full_results_01['required'])
+        self.assertFalse(full_results_01['create'])
+        self.assertFalse(full_results_01['directory'])
 
-        self.assertFalse(full_results['required'])
-        self.assertFalse(full_results['create'])
-        self.assertFalse(full_results['directory'])
+        full_results_02 = self.paths.getFull('gmutils_tmp')
+        self.assertFalse(full_results_02['required'])
+        self.assertFalse(full_results_02['create'])
+        self.assertTrue(full_results_02['directory'])
     
-    def test_03_load_create(self):
+    def test_03_create(self):
         
-        self.paths.load(
-            test_02={
-                'path': '/tmp/gmutils',
-                'create': True
-            }
-        )
+        self.paths.add('test_02', '/tmp/gmutils', create=True)
 
         full_results = self.paths.getFull('test_02')
 
@@ -55,21 +63,45 @@ class UtilsPathsTest(unittest.TestCase):
         # make sure the file was created
         self.assertTrue(os.path.exists('/tmp/gmutils'))
 
-    def test_04_load_required(self):
-        
-        self.paths.load(
-            test_03={
-                'path': '/tmp/gmutils',
-                'required': True
-            }
-        )
+    def test_04_required(self):
+        self.paths.add('test_04', '/tmp/gmutils', required=True)
 
-        full_results = self.paths.getFull('test_03')
-
+        full_results = self.paths.getFull('test_04')
         self.assertTrue(full_results['required'])
 
-        # TODO: check for when the required file doesn't match
+        # check if an exception is thrown if the file doesn't exist
+        with self.assertRaises(gmutils.utils.exceptions.GMException) as context:
+            self.paths.add('test_04_1', '/tmp/gmutils/random_path/', required=True)
 
+    def test_07_directory(self):
+        self.paths.add('test_07', '/tmp/gmutils', directory=True)
+
+        full_results = self.paths.getFull('test_07')
+        self.assertTrue(full_results['directory'])
+
+        # based off name
+        self.paths.add('dir-tmp', '/tmp')
+        full_results = self.paths.getFull('dir-tmp')
+        self.assertTrue(full_results['directory'])
+
+        # detect dir
+        self.paths.add('test_07_1', '/tmp')
+        full_results = self.paths.getFull('test_07_1')
+        self.assertTrue(full_results['directory'])
+
+    def test_08_duplications(self):
+
+        self.paths.add('test_08', '/tmp/gmutils/test_file_01.txt')
+
+        self.assertIsNotNone(self.paths.get('test_08'))
+
+        with self.assertRaises(gmutils.utils.exceptions.GMException) as context:
+            # try to overwrite `test_08`
+            self.paths.add('test_08', '/tmp/gmutils/test_file_02.txt')
+
+        # Turn on duplications
+        self.paths.duplications = True
+        self.paths.add('test_08', '/tmp/gmutils/test_file_03.txt')
 
     def test_10_remove(self):
         self.paths.add('test_10', '/random/path/to/file.txt')
