@@ -1,5 +1,5 @@
 # GMUtils
-GeekMasher's Open Source Utilities Python Library
+GeekMasher's Open Source Python Utilities Library
 
 ![GeekMasher GMUtils Banner](./docs/assets/banner.png)
 

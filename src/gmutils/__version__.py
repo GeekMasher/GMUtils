@@ -4,7 +4,7 @@ __version__ = "0.1.0"
 __title__ = "GMUtils"
 __name__ = "gmutils"
 
-__description__ = "GeekMasher's Open Source Utilities Python Library"
+__description__ = "GeekMasher's Open Source Python Utilities Library"
 __summary__ = """\
 GeekMasher created this open source Python utilities library to make his and
 other peoples life easier when writing Python code.
