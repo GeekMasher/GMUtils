@@ -6,6 +6,19 @@ import threading
 from gmutils.utils.config import Config
 
 
+def main():
+    while True:
+        try:
+            time.sleep(.25)
+        except KeyboardInterrupt:
+            break
+        except Exception as err:
+            if Config.isTesting():
+                print('ERR - ' + str(err))
+                break
+
+    Config.haltThreads()
+
 def createThreads(name, thread_count=1, waitfor=0):
     """ The createThreads() function is a Python wrapper that allows you to
     quickly and easily create thead-able tasks.
