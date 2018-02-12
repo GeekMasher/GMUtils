@@ -4,6 +4,7 @@ import time
 import threading
 
 from gmutils.utils.config import Config
+from gmutils.helpers.helpme_printing import Printing
 
 
 def main():
@@ -14,7 +15,10 @@ def main():
             break
         except Exception as err:
             if Config.isTesting():
-                print('ERR - ' + str(err))
+                Printing.error(
+                    1, 'Unknown exception ins main thread',
+                    exp=err
+                )
                 break
 
     Config.haltThreads()

@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import sys
+import platform
 import traceback
 import logging
+
+from gmutils import Config
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +19,9 @@ class Printing:
             'red': '\x1b[0;31;48m',
             'blue': '\x1b[0;34;48m'
         }
+
+        if 'Windows' in platform.platform():
+            colour = None
 
         if colour in colours:
             if out == 0:
@@ -39,9 +45,6 @@ class Printing:
 
     @staticmethod
     def banner():
-        
-        from gmutils.config import Config
-
         if not Config.quite:
             lib = __import__(__name__)
             if hasattr(lib, "__banner_detailed__"):
@@ -51,9 +54,6 @@ class Printing:
 
     @staticmethod
     def blank():
-        
-        from gmutils.config import Config
-
         if not Config.quite:
             sys.stdout.write('\n')
 
@@ -78,8 +78,6 @@ class Printing:
     def info(code, text):
         s = Printing.format('info', code, text)
 
-        from gmutils.config import Config
-
         if not Config.quite:
             Printing.colour('green', s)
 
@@ -89,16 +87,12 @@ class Printing:
     def data(title, text):
         s = Printing.format('data', title, text)
 
-        from gmutils.config import Config
-
         if not Config.quite:
             Printing.colour('blue', s)
 
     @staticmethod
     def error(code, text, exp=False):
         s = Printing.format('error', code, text)
-
-        from gmutils.config import Config
 
         if not Config.quite:
             Printing.colour('red', s, 1)
