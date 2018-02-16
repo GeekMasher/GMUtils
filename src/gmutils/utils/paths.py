@@ -40,6 +40,12 @@ class Paths:
                 directory=True
             )
 
+            self.add(
+                'config',
+                join(self.get('project_data'), 'config.json'),
+                mime='application/json'
+            )
+
         if kargvs.get('paths'):
             self.load(**kargvs.get('paths'))
 
@@ -72,7 +78,7 @@ class Paths:
         :type name: type str
 
         :param path: The path or location to a resource
-        :type path: type str 
+        :type path: type str
 
         :param required: The `required` paramater allows the developer to make sure that the
         file/dir exists before using it. An example of this is to check if a
@@ -131,9 +137,11 @@ class Paths:
             if not exists(path):
                 raise GMException('The path being added is required to exist')
 
+        # A file is required to exist for the MIME check to be performed
         if OPTIONS['_exists'] and OPTIONS['mime'] != '':
             Paths.checkMime(path, OPTIONS['mime'])
 
+        # Create it if the file/folder doesn't exists
         if OPTIONS['create'] and not OPTIONS['_exists']:
             Paths.create(path, is_directory=OPTIONS['directory'])
 
