@@ -1,0 +1,14 @@
+{
+    "paths": {
+        "paths": {
+            "dir-config": {
+                "path": "/etc/gmconfigs/",
+                "directory": true
+            },
+            "config-prod": {
+                "path": "/etc/gmconfigs/config.prod.json",
+                "mime": "application/json"
+            }
+        }
+    }
+}

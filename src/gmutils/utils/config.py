@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 from os.path import exists, join
+from json import loads
 
 from gmutils.utils.paths import Paths
+from gmutils.utils.exceptions import GMException
 
 class Config:
     ENV = 'TEST'
@@ -29,7 +31,39 @@ class Config:
 
     @staticmethod
     def loadFile(path_file):
-        return
+        if exists(path_file) and Config.paths.checkMime(path_file, 'application/json'):
+            with open(path_file, 'r') as config_file:
+                conf = loads(config_file.read())
+
+            Config.loadDict(conf)
+
+    @staticmethod
+    def loadDict(config_dct):
+        if not isinstance(config_dct, dict):
+            raise GMException('Config.load only supports dicts')
+
+        for key, value in config_dct.items():
+            if key.startswith('_') or not hasattr(Config, key):
+                continue
+            attr = getattr(Config, key)
+            # Make sure it isn't a function
+            if callable(attr):
+                continue
+            
+            if isinstance(value, dict):
+                # Check if the object has a function called `load`
+                if hasattr(attr, 'load') and callable(getattr(attr, 'load')):
+                    attr.load(**value)
+                # Check if the `__setattr__` function is present
+                elif hasattr(attr, '__setattr__'):
+                    for attr_k, attr_v in value.items():
+                        attr.__setattr__(attr_k, attr_v)
+            elif isinstance(value, list):
+                if hasattr(attr, 'append'):
+                    for v in value:
+                        attr.append(v)
+            else:
+                setattr(Config, key, value)
 
     @staticmethod
     def isTesting():
@@ -58,3 +92,7 @@ class Config:
             thread.join(timeout=5)
 
         Config.THREADS = []
+
+    @staticmethod
+    def export(path):
+        pass

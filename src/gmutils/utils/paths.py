@@ -18,8 +18,10 @@ class Paths:
         other functionality to GMUtils.s
         """
         # Defaults:
-        self.duplications = kargvs.get('duplications', False)
-        self.security_checks = kargvs.get('security_checks', True)
+        self.duplications = None
+        self.security_checks = None
+
+        self.load(**kargvs)
 
         __project__ = modules['__main__']
         if hasattr(__project__, '__file__'):
@@ -46,29 +48,34 @@ class Paths:
                 mime='application/json'
             )
 
-        if kargvs.get('paths'):
-            self.load(**kargvs.get('paths'))
-
-    def load(self, **load_paths):
+    def load(self, **kargvs):
         """ The Path.load() function is used for loads all the projects predetermined
         path variables. Normally these are defined in the projects `config.json` file.
 
-        "name": {
-            "path": "/path/to/the/file.ext",
-            "create": bool,
-            "required": bool,
-            "directory": bool
-            "mime": "file/mime"
+        Example:
+        "paths": {
+            "path-name": {
+                "path": "/path/to/the/file.ext",
+                "create": bool,
+                "required": bool,
+                "directory": bool
+                "mime": "file/mime"
+            }
         }
         """
-        for name, options in load_paths.items():
-            for key, value in options.items():
-                if key.startswith('_'):
-                    continue
-                options[key] = value
+        # Defaults:
+        self.duplications = kargvs.get('duplications', False)
+        self.security_checks = kargvs.get('security_checks', True)
+        
+        if kargvs.get('paths'):
+            for name, options in kargvs.get('paths').items():
+                for key, value in options.items():
+                    if key.startswith('_'):
+                        continue
+                    options[key] = value
 
-            if name != '':
-                self.add(name, **options)
+                if name != '':
+                    self.add(name, **options)
 
     def add(self, name, path, **kargvs):
         """ The add function allows developers to add paths for their project,
@@ -118,7 +125,7 @@ class Paths:
 
         # Options setters
         if not self.duplications and Paths.__PATHS__.get(name):
-            raise GMException('The Path name already exist')
+            raise GMException('The Path name already exist: {}'.format(name))
 
         if name.startswith('dir-') or name.startswith('dir_'):
             OPTIONS['directory'] = True
@@ -142,21 +149,23 @@ class Paths:
             Paths.checkMime(path, OPTIONS['mime'])
 
         # Create it if the file/folder doesn't exists
-        if OPTIONS['create'] and not OPTIONS['_exists']:
+        if not OPTIONS['_exists'] and OPTIONS['create']:
             Paths.create(path, is_directory=OPTIONS['directory'])
 
         # finally, add new path in the __PATHS__ dict
         OPTIONS['path'] = path
         Paths.__PATHS__[name] = OPTIONS
 
-    def get(self, name):
+    def get(self, name, mime=None):
         """ This function allows you to get a path/resource by name that has been registered
 
         :param name: The name that you can to get
         :type name: type str
         """
         if Paths.__PATHS__.get(name):
-            return Paths.__PATHS__[name]['path']
+            path = Paths.__PATHS__[name]['path']
+            Paths.checkMime(path, mime)
+            return path
         return None
 
     def getFull(self, name):
@@ -182,7 +191,7 @@ class Paths:
     @staticmethod
     def create(file, is_directory=False):
         # if the file doesn't exist, create it
-        if not is_directory:
+        if is_directory:
             makedirs(file)
         else:
             with open(file, 'w') as tmp_file:

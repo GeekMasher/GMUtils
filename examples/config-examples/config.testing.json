@@ -1,8 +1,12 @@
 {
     "paths": {
-        "dir-tmp": {
-            "path": "/tmp/GM/",
-            "create": true
+        "duplications": true,
+        
+        "paths": {
+            "dir-tmp": {
+                "path": "/tmp/GM/",
+                "create": true
+            }
         }
     }
 }
