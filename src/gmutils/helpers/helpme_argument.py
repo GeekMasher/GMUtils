@@ -11,5 +11,5 @@ class Arguments():
     def load(self, **options):
         pass
 
-    def addArgument(self, argument_name, group=None)
+    def addArgument(self, argument_name, group=None):
         pass
