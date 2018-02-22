@@ -7,6 +7,7 @@ from inspect import isclass, ismodule
 
 from gmutils.utils.paths import Paths
 from gmutils.utils.exceptions import GMException
+from gmutils.helpers.helpme_argument import Arguments
 
 
 class Config:
@@ -16,6 +17,8 @@ class Config:
     HALT = False
     THREADS = []
 
+    arguments = Arguments()
+
     paths = Paths()
 
 
@@ -24,10 +27,15 @@ class Config:
         """ The load function runs though a predeterminded list of of loading
         paths, env vars and command argvs.
         """
+        # load from `Project root`
+        pro_path = Config.paths.get('config-project')
+        if exists(pro_path):
+            Config.loadFile(pro_path)
 
-        # TODO: load from `Project root`
-
-        # TODO: load from `Env vars`
+        # load from `Env vars`
+        env_path = environ.get('PROJECT_CONFIG')
+        if env_path is not None and exists(env_path):
+            Config.loadFile(env_path)
 
         # TODO: load from `CLI arguments`
         return
