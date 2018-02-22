@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 
+from os import environ
 from os.path import exists, join
-from json import loads
+from json import loads, dumps
+from inspect import isclass, ismodule
 
 from gmutils.utils.paths import Paths
 from gmutils.utils.exceptions import GMException
 
+
 class Config:
-    ENV = 'TEST'
+    ENV = environ.get('PROJECT_ENV', 'TESTING')
+    quite = False
 
     HALT = False
     THREADS = []
 
-    quite = False
-
     paths = Paths()
+
 
     @staticmethod
     def load():
@@ -31,11 +34,13 @@ class Config:
 
     @staticmethod
     def loadFile(path_file):
-        if exists(path_file) and Config.paths.checkMime(path_file, 'application/json'):
+        if Config.paths.check(path_file, mime='application/json'):
             with open(path_file, 'r') as config_file:
                 conf = loads(config_file.read())
 
             Config.loadDict(conf)
+        else:
+            raise GMException("Configuration file of an unsupport type")
 
     @staticmethod
     def loadDict(config_dct):
@@ -49,7 +54,7 @@ class Config:
             # Make sure it isn't a function
             if callable(attr):
                 continue
-            
+
             if isinstance(value, dict):
                 # Check if the object has a function called `load`
                 if hasattr(attr, 'load') and callable(getattr(attr, 'load')):
@@ -94,5 +99,47 @@ class Config:
         Config.THREADS = []
 
     @staticmethod
-    def export(path):
-        pass
+    def export(path=None, export_object=None, depth=1):
+
+        def _export_recursively(current_object, current_depth=0):
+            DATA = {}
+
+            if current_depth > depth+1:
+                return
+
+            if hasattr(current_object, '__export__'):
+                return current_object.__export__()
+
+            for variable_name in dir(current_object):
+                if variable_name.startswith('_'):
+                    continue
+
+                attr = getattr(current_object, variable_name)
+                if callable(attr) or attr is None:
+                    continue
+
+                if hasattr(attr, '__module__'):
+                    new_depth = current_depth+1
+                    ret_val = _export_recursively(
+                        attr, current_depth=new_depth
+                    )
+                else:
+                    ret_val = attr
+
+                if ret_val is not None:
+                    DATA[variable_name] = ret_val
+
+            return DATA
+        # default export == `Config()`
+        if export_object is None:
+            EXPORT_DATA = _export_recursively(Config)
+        # Support for arbitrary to be passed in
+        else:
+            EXPORT_DATA = _export_recursively(export_object)
+
+        if path is not None:
+            # write to file
+            with open(path, 'w') as export_fl:
+                export_fl.write(
+                    dumps(EXPORT_DATA, indent=2, sort_keys=True)
+                )
