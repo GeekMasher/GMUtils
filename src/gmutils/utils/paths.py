@@ -23,30 +23,7 @@ class Paths:
 
         self.load(**kargvs)
 
-        __project__ = modules['__main__']
-        if hasattr(__project__, '__file__'):
-            # Add standard project paths
-            self.add(
-                'cwd', getcwd(), directory=True
-            )
-            self.add(
-                'project', abspath(dirname(__project__.__file__)),
-                directory=True
-            )
-            self.add(
-                'project_libs', join(self.get('project'), 'libs'),
-                directory=True
-            )
-            self.add(
-                'project_data', join(self.get('project'), 'data'),
-                directory=True
-            )
-
-            self.add(
-                'config',
-                join(self.get('project_data'), 'config.json'),
-                mime='application/json'
-            )
+        self.defaults()
 
     def load(self, **kargvs):
         """ The Path.load() function is used for loads all the projects predetermined
@@ -66,7 +43,7 @@ class Paths:
         # Defaults:
         self.duplications = kargvs.get('duplications', False)
         self.security_checks = kargvs.get('security_checks', True)
-        
+
         if kargvs.get('paths'):
             for name, options in kargvs.get('paths').items():
                 for key, value in options.items():
@@ -164,7 +141,8 @@ class Paths:
         """
         if Paths.__PATHS__.get(name):
             path = Paths.__PATHS__[name]['path']
-            Paths.checkMime(path, mime)
+            if mime is not None:
+                Paths.checkMime(path, mime)
             return path
         return None
 
@@ -178,6 +156,30 @@ class Paths:
             return Paths.__PATHS__[name]
         return None
 
+    def check(self, path, mime=''):
+        """ The check function allows you to
+
+        Arguments:
+            path {[str]} -- [description]
+        """
+
+        if not exists(path):
+            return False
+
+        # Check mime type
+        try:
+            self.checkMime(path, mime)
+        except GMException as err:
+            return False
+
+        return True
+
+    def clear(self):
+        """ This function will reset/clear the current paths added in the
+        Paths() class
+        """
+        Paths.__PATHS__ = {}
+
     def remove(self, name):
         """ The remove function deletes a path by name
         :param name: Name of the path that you want to delete
@@ -189,12 +191,20 @@ class Paths:
             raise GMException('Path does not exist; {}'.format(name))
 
     @staticmethod
-    def create(file, is_directory=False):
-        # if the file doesn't exist, create it
+    def create(path, is_directory=False):
+        """ This static function will create files or directories
+
+        Arguments:
+            path {[str]} -- path of the file/directory you want to create
+
+        Keyword Arguments:
+            is_directory {[bool]} -- id the path a directory? (default: {False})
+        """
         if is_directory:
-            makedirs(file)
+            path = path if path.endswith('') else path.rstrip('/')
+            makedirs(path)
         else:
-            with open(file, 'w') as tmp_file:
+            with open(path, 'w') as tmp_file:
                 tmp_file.write("")
 
     @staticmethod
@@ -217,5 +227,36 @@ class Paths:
             return mime_type
         return True
 
-    def __dict__(self):
-        return Paths.__PATHS__
+    def defaults(self):
+        __project__ = modules['__main__']
+        if hasattr(__project__, '__file__'):
+            # Add standard project paths
+            self.add(
+                'cwd', getcwd(), directory=True
+            )
+            self.add(
+                'project', abspath(dirname(__project__.__file__)),
+                directory=True
+            )
+            self.add(
+                'project_libs', join(self.get('project'), 'libs'),
+                directory=True
+            )
+            self.add(
+                'project_data', join(self.get('project'), 'data'),
+                directory=True
+            )
+
+            self.add(
+                'config',
+                join(self.get('project_data'), 'config.json'),
+                mime='application/json'
+            )
+
+    def __export__(self):
+        exp = {
+            'duplications': self.duplications,
+            'security_checks': self.security_checks,
+            'paths': Paths.__PATHS__
+        }
+        return exp

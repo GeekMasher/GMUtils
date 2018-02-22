@@ -20,17 +20,17 @@ class UtilsPathsTest(unittest.TestCase):
         self.paths.duplications = False
 
     def tearDown(self):
-        pass
+        self.paths.clear()
 
     def test_01_init(self):
-        
+
         # Check standard paths were added
         self.assertIsNotNone(self.paths.get('project'))
         self.assertIsNotNone(self.paths.get('project_libs'))
         self.assertIsNotNone(self.paths.get('project_data'))
 
     def test_02_load(self):
-        
+
         self.paths.load(
             gmutils_tmp={
                 'path': '/tmp/gmutils/'
@@ -52,9 +52,9 @@ class UtilsPathsTest(unittest.TestCase):
         self.assertFalse(full_results_02['required'])
         self.assertFalse(full_results_02['create'])
         self.assertTrue(full_results_02['directory'])
-    
+
     def test_03_create(self):
-        
+
         self.paths.add('test_02', '/tmp/gmutils', create=True)
 
         full_results = self.paths.getFull('test_02')
@@ -123,6 +123,10 @@ class UtilsPathsTest(unittest.TestCase):
         # Turn on duplications
         self.paths.duplications = True
         self.paths.add('test_08', '/tmp/gmutils/test_file_03.txt')
+
+    def test_09_clear(self):
+        self.paths.clear()
+        self.assertDictEqual(Paths.__PATHS__, {})
 
     def test_10_remove(self):
         self.paths.add('test_10', '/random/path/to/file.txt')
