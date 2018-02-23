@@ -26,8 +26,8 @@ class UtilsPathsTest(unittest.TestCase):
 
         # Check standard paths were added
         self.assertIsNotNone(self.paths.get('project'))
-        self.assertIsNotNone(self.paths.get('project_libs'))
-        self.assertIsNotNone(self.paths.get('project_data'))
+        self.assertIsNotNone(self.paths.get('project-libs'))
+        self.assertIsNotNone(self.paths.get('project-data'))
 
     def test_02_load(self):
 

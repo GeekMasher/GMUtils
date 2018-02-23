@@ -8,11 +8,13 @@ from gmutils.utils.exceptions import GMException
 class Arguments(ArgumentParser):
     def __init__(self, **kargvs):
         options = kargvs
+        self._groups = {}
 
         options['description'] = ''
 
-        super(ArgumentParser).__init(**kargvs)
+        super().__init__(**kargvs)
         self.defaults()
+
 
         self._results = None
 
@@ -28,11 +30,14 @@ class Arguments(ArgumentParser):
     def defaults(self):
 
         # default groups
-        self.add_argument_group('system')
+        self._groups['system'] = self.add_argument_group(
+            'system',
+            'System Operation'
+        )
 
-        self.add_argument('-v', '--version')
-        self.add_argument('-vvv', '--verbose')
-        self.add_argument('-c', '--config')
+        self._groups['system'].add_argument('-v', '--version')
+        self._groups['system'].add_argument('-vvv', '--verbose')
+        self._groups['system'].add_argument('-c', '--config')
 
 
     def get(self, argument):

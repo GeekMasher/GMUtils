@@ -239,17 +239,17 @@ class Paths:
                 directory=True
             )
             self.add(
-                'project_libs', join(self.get('project'), 'libs'),
+                'project-libs', join(self.get('project'), 'libs'),
                 directory=True
             )
             self.add(
-                'project_data', join(self.get('project'), 'data'),
+                'project-data', join(self.get('project'), 'data'),
                 directory=True
             )
 
             self.add(
-                'config',
-                join(self.get('project_data'), 'config.json'),
+                'config-project',
+                join(self.get('project-data'), 'config.json'),
                 mime='application/json'
             )
 
