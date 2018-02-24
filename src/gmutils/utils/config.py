@@ -2,11 +2,12 @@
 
 from os import environ
 from os.path import exists, join
+from sys import modules, exit
 from json import loads, dumps
 from inspect import isclass, ismodule
 
 from gmutils.utils.paths import Paths
-from gmutils.utils.exceptions import GMException
+from gmutils.utils.exceptions import GMException, GMSecurity
 from gmutils.helpers.helpme_argument import Arguments
 
 
@@ -77,6 +78,31 @@ class Config:
                         attr.append(v)
             else:
                 setattr(Config, key, value)
+
+    @staticmethod
+    def initCLI():
+        from gmutils.helpers.helpme_printing import Printing
+        err = None
+
+        Config.arguments._results = Config.arguments.parse_args()
+
+        try:
+            if Config.arguments.get('version'):
+                if hasattr(modules.get('__main__'), '__version__'):
+                    print('v' + modules.get('__main__').__version__)
+                    exit(0)
+            elif Config.arguments.get('config'):
+                for config in Config.arguments.get('config'):
+                    Config.loadFile(config)
+
+        except (GMException, GMSecurity) as context:
+            err = context
+        finally:
+            if not Config.quite:
+                Printing.banner()
+            if err is not None:
+                Printing.error('CLI', str(err), err)
+        
 
     @staticmethod
     def isTesting():
@@ -151,3 +177,6 @@ class Config:
                 export_fl.write(
                     dumps(EXPORT_DATA, indent=2, sort_keys=True)
                 )
+        else:
+            from gmutils.helpers.helpme_printing import Printing
+            Printing.data('Config()', dumps(EXPORT_DATA, indent=2, sort_keys=True))

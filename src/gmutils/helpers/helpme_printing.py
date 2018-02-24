@@ -46,9 +46,12 @@ class Printing:
     @staticmethod
     def banner():
         if not Config.quite:
-            lib = __import__(__name__)
+            lib = sys.modules.get('__main__')
             if hasattr(lib, "__banner_detailed__"):
                 Printing.colour('green', lib.__banner_detailed__)
+            # elif :
+                # TODO: Add detailed banner support from
+                # `__banner__, __version__, __description__`
             elif hasattr(lib, "__banner__"):
                 Printing.colour('green', lib.__banner__)
 
@@ -92,7 +95,7 @@ class Printing:
 
     @staticmethod
     def error(code, text, exp=False):
-        s = Printing.format('error', code, text)
+        s = Printing.format('error', code, text+'\n')
 
         if not Config.quite:
             Printing.colour('red', s, 1)
@@ -100,6 +103,9 @@ class Printing:
         logger.error(s)
 
         if exp:
+            logger.warning('Printing.error() with exception is not implemented')
+            return
+
             exc_type, exc_value, exc_tb = sys.exc_info()
             tbe = traceback.TracebackException(
                 exc_type, exc_value, exc_tb,
@@ -107,4 +113,3 @@ class Printing:
             if not Config.quite:
                 Printing.colour('red', tbe, 1)
             logger.error(tbe)
-

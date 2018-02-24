@@ -156,7 +156,7 @@ class Paths:
             return Paths.__PATHS__[name]
         return None
 
-    def check(self, path, mime=''):
+    def check(self, path, mime=None):
         """ The check function allows you to
 
         Arguments:
