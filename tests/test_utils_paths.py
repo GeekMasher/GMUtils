@@ -24,6 +24,9 @@ class UtilsPathsTest(unittest.TestCase):
 
     def test_01_init(self):
 
+        self.assertFalse(self.paths.duplications)
+        self.assertTrue(self.paths.security_checks)
+
         # Check standard paths were added
         self.assertIsNotNone(self.paths.get('project'))
         self.assertIsNotNone(self.paths.get('project-libs'))
@@ -32,13 +35,18 @@ class UtilsPathsTest(unittest.TestCase):
     def test_02_load(self):
 
         self.paths.load(
-            gmutils_tmp={
-                'path': '/tmp/gmutils/'
-            },
-            gmutils_tmpfile={
-                'path': '/tmp/gmutils/test.txt'
+            duplications=True,
+            paths={
+                'gmutils_tmp': {
+                    'path': '/tmp/gmutils/'
+                },
+                'gmutils_tmpfile': {
+                    'path': '/tmp/gmutils/test.txt'
+                }
             }
         )
+
+        self.assertTrue(self.paths.duplications)
 
         self.assertEqual(self.paths.get('gmutils_tmpfile'), '/tmp/gmutils/test.txt')
         self.assertEqual(self.paths.get('gmutils_tmp'), '/tmp/gmutils/')
@@ -135,4 +143,13 @@ class UtilsPathsTest(unittest.TestCase):
 
         self.paths.remove('test_10')
         self.assertFalse(self.paths.get('test_10'))
+
+    def test_11_recursive(self):
+        rnd_path = '/tmp/gm/random/path/0712346'
+        self.paths.add(
+            'randompath_0712346', rnd_path, create=True, directory=True
+        )
+
+        self.assertTrue(os.path.exists(rnd_path))
+
 
