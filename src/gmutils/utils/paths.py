@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from os import makedirs, getcwd
-from os.path import exists, join, abspath, dirname, isdir
+from os.path import exists, join, abspath, dirname, isdir, realpath
 from sys import modules
 from mimetypes import MimeTypes
 
@@ -207,9 +207,29 @@ class Paths:
             with open(path, 'w') as tmp_file:
                 tmp_file.write("")
 
-    @staticmethod
-    def join(root, *paths):
-        return join(root, *paths)
+    def join(self, root, *paths):
+        """The Paths.join() function is just a wrapper on-top of the standard
+        os.path.join() function except it performs some security checks if
+        Paths.security_checks is set to true.
+
+        Arguments:
+            root {[str]} -- the root directory
+            *paths {[str]} -- the different paths to be joined with the root
+            directory
+
+        Returns:
+            [str] -- the full string of the concatinated paths
+        """
+        _path = join(root, *paths)
+
+        # TODO: perform checks
+
+        violation = False if realpath(_path) == _path else True
+        if violation:
+            logging.warning('Paths.join() security issues')
+        if self.security_checks and violation:
+            raise GMSecurity('Paths.join() possible path traversal detected')
+        return _path
 
     @staticmethod
     def checkMime(path, mime=None):

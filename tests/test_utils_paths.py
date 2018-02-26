@@ -8,6 +8,7 @@ import time
 import gmutils
 
 from gmutils import Config
+from gmutils.utils.exceptions import GMSecurity
 from gmutils.utils.paths import Paths
 
 
@@ -81,9 +82,23 @@ class UtilsPathsTest(unittest.TestCase):
         with self.assertRaises(gmutils.utils.exceptions.GMException) as context:
             self.paths.add('test_04_1', '/tmp/gmutils/random_path/', required=True)
 
+    def test_05_join(self):
+        join_paths = {
+            'absolute': ['/tmp', 'gmutils', 'test_file.txt'],
+            'violation': ['/tmp', 'gmutils', '../../../etc/passwd']
+        }
+        self.paths.security_checks = True
+        self.assertEqual(
+            self.paths.join(*join_paths['absolute']),
+            '/tmp/gmutils/test_file.txt'
+        )
+
+        with self.assertRaises(GMSecurity) as context:
+            self.paths.join(*join_paths['violation'])
+
     def test_06_mime(self):
         self.paths.add(
-            'test_06', Paths.join(self.paths.get('cwd'), 'tests', 'test-data')
+            'test_06', self.paths.join(self.paths.get('cwd'), 'tests', 'test-data')
         )
 
         self.assertIsNotNone(self.paths.get('test_06'))
@@ -91,14 +106,14 @@ class UtilsPathsTest(unittest.TestCase):
 
         self.paths.add(
             'test_06_json',
-            Paths.join(self.paths.get('test_06'), 'testfile.json'),
+            self.paths.join(self.paths.get('test_06'), 'testfile.json'),
             mime='application/json'
         )
 
         with self.assertRaises(gmutils.utils.exceptions.GMSecurity) as context:
             self.paths.add(
                 'test_06_xml',
-                Paths.join(self.paths.get('test_06'), 'testfile.xml'),
+                self.paths.join(self.paths.get('test_06'), 'testfile.xml'),
                 mime='not/x_m_l'
             )
 

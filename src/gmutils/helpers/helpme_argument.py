@@ -14,7 +14,7 @@ class Arguments(ArgumentParser):
         options['description'] = ''
 
         super().__init__(**kargvs)
-        
+
         self.defaults()
 
         self._results = None

@@ -97,12 +97,12 @@ class Config:
 
         except (GMException, GMSecurity) as context:
             err = context
-        finally:
-            if not Config.quite:
-                Printing.banner()
-            if err is not None:
-                Printing.error('CLI', str(err), err)
-        
+
+        if not Config.quite:
+            Printing.banner()
+        if err is not None:
+            Printing.error('CLI', str(err), err)
+
 
     @staticmethod
     def isTesting():
