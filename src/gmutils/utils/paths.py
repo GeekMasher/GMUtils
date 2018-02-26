@@ -202,7 +202,7 @@ class Paths:
         """
         if is_directory:
             path = path if path.endswith('') else path.rstrip('/')
-            makedirs(path)
+            makedirs(path, exist_ok=True)
         else:
             with open(path, 'w') as tmp_file:
                 tmp_file.write("")
