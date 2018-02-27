@@ -26,19 +26,9 @@ class Paths:
         self.defaults()
 
     def load(self, **kargvs):
-        """ The Path.load() function is used for loads all the projects predetermined
-        path variables. Normally these are defined in the projects `config.json` file.
-
-        Example:
-        "paths": {
-            "path-name": {
-                "path": "/path/to/the/file.ext",
-                "create": bool,
-                "required": bool,
-                "directory": bool
-                "mime": "file/mime"
-            }
-        }
+        """ The Path.load() function is used for loads all the projects
+        predetermined path variables. Normally these are defined in the
+        projects `config.json` file.
         """
         # Defaults:
         self.duplications = kargvs.get('duplications', False)
@@ -59,26 +49,31 @@ class Paths:
         allowing many options for the developer to use.
 
         :param name: The name of the resource
-        :type name: type str
+        :type name: str
 
         :param path: The path or location to a resource
-        :type path: type str
+        :type path: str
 
-        :param required: The `required` paramater allows the developer to make sure that the
-        file/dir exists before using it. An example of this is to check if a
-        config file exists, if it doesn't an exception will be raised.
-        :type required: type boolean
+        :param required: The `required` paramater allows the developer to make\
+        sure that the file/dir exists before using it. An example of this is\
+        to check if a config file exists, if it doesn't an exception will be\
+        raised.
+        :type required: bool
 
-        :param create: The `create` parameter will create the file for the user if the file doesn't exist already.
-        :type create: type boolean
+        :param create: The `create` parameter will create the file for the\
+        user if the file doesn't exist already.
+        :type create: bool
 
-        :param directory: The `directory` flag is set when a developer wants to create/use the path as a directory.
-        :type directory: type boolean
+        :param directory: The `directory` flag is set when a developer wants\
+        to create/use the path as a directory.
+        :type directory: bool
 
-        :param mime: The `mime` paramater allows for the developer to quickly check the file type before its used.
-        An example of this is if you are expecting a JSON file, using 'application/json' will make
-        sure that the correct files are used without the developer having to write any more code.
-        :type mime: type str
+        :param mime: The `mime` paramater allows for the developer to quickly\
+        check the file type before its used. An example of this is if you are\
+        expecting a JSON file, using 'application/json' will make sure that\
+        the correct files are used without the developer having to write any\
+        more code.
+        :type mime: str
         """
         OPTIONS = {
             '_exists': False,
@@ -134,7 +129,8 @@ class Paths:
         Paths.__PATHS__[name] = OPTIONS
 
     def get(self, name, mime=None):
-        """ This function allows you to get a path/resource by name that has been registered
+        """ This function allows you to get a path/resource by name that has
+        been registered
 
         :param name: The name that you can to get
         :type name: type str
@@ -192,13 +188,13 @@ class Paths:
 
     @staticmethod
     def create(path, is_directory=False):
-        """ This static function will create files or directories
+        """Create is a static function that will create files or directories\
+        on behalf other the programmer.
 
-        Arguments:
-            path {[str]} -- path of the file/directory you want to create
-
-        Keyword Arguments:
-            is_directory {[bool]} -- id the path a directory? (default: {False})
+        :param path: path of the file/directory you want to create
+        :type path: str
+        :param is_directory: is the path a directory?
+        :type is_directory: boot (default: {False})
         """
         if is_directory:
             path = path if path.endswith('') else path.rstrip('/')
@@ -212,13 +208,14 @@ class Paths:
         os.path.join() function except it performs some security checks if
         Paths.security_checks is set to true.
 
-        Arguments:
-            root {[str]} -- the root directory
-            *paths {[str]} -- the different paths to be joined with the root
-            directory
+        :param root: the root directory
+        :type root: str
 
-        Returns:
-            [str] -- the full string of the concatinated paths
+        :param paths: the different paths to be joined with the root directory
+        :type paths: list
+
+        :returns: the full string of the concatinated paths
+        :rtype: str
         """
         _path = join(root, *paths)
 
@@ -239,9 +236,8 @@ class Paths:
         if mime is not None:
             if mime != mime_type:
                 raise GMSecurity(
-                    'The file provided is not of the expected type: {} != {}'.format(
-                        mime_type, mime
-                    )
+                    'The file provided is not of the expected type: ' +
+                    mime_type + ' != ' + mime
                 )
         else:
             return mime_type
