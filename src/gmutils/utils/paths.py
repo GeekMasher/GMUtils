@@ -15,8 +15,12 @@ class Paths:
 
     def __init__(self, **kargvs):
         """The Paths() class supplies Utils with an interface to set, get and
-        other functionality to GMUtils.s
+        other functionality to GMUtils.
+
+        Arguments:
+            **kargvs {dict} -- options being set/loaded into Paths()
         """
+
         # Defaults:
         self.duplications = None
         self.security_checks = None
@@ -26,10 +30,14 @@ class Paths:
         self.defaults()
 
     def load(self, **kargvs):
-        """ The Path.load() function is used for loads all the projects
+        """The Path.load() function is used for loads all the projects
         predetermined path variables. Normally these are defined in the
         projects `config.json` file.
+
+        Arguments:
+            **kargvs {dict} -- options being loaded into Paths()
         """
+
         # Defaults:
         self.duplications = kargvs.get('duplications', False)
         self.security_checks = kargvs.get('security_checks', True)
@@ -45,35 +53,37 @@ class Paths:
                     self.add(name, **options)
 
     def add(self, name, path, **kargvs):
-        """ The add function allows developers to add paths for their project,
+        """The add function allows developers to add paths for their project,
         allowing many options for the developer to use.
 
-        :param name: The name of the resource
-        :type name: str
+        Arguments:
+            name {str} -- the name of the resource
+            path {str} -- the path or location to a resource
+            **kargvs {dict} -- the different path options
 
-        :param path: The path or location to a resource
-        :type path: str
+        Options (kargvs):
+            required {bool} -- The `required` paramater allows the developer to
+            make sure that the file/dir exists before using it. An example of
+            this is to check if a config file exists, if it doesn't an
+            exception will be thrown.
 
-        :param required: The `required` paramater allows the developer to make\
-        sure that the file/dir exists before using it. An example of this is\
-        to check if a config file exists, if it doesn't an exception will be\
-        raised.
-        :type required: bool
+            create {bool} -- The `create` parameter will create the file for
+            the user if the file doesn't exist already.
 
-        :param create: The `create` parameter will create the file for the\
-        user if the file doesn't exist already.
-        :type create: bool
+            directory {bool} -- The `directory` flag is set when a developer
+            wants to create/use the path as a directory.
 
-        :param directory: The `directory` flag is set when a developer wants\
-        to create/use the path as a directory.
-        :type directory: bool
+            mime {str} -- The `mime` paramater allows for the developer to
+            quickly check the file type before its used. An example of this is
+            if you are expecting a JSON file, using 'application/json' will
+            make sure that the correct files are used without the developer
+            having to write any more code.
 
-        :param mime: The `mime` paramater allows for the developer to quickly\
-        check the file type before its used. An example of this is if you are\
-        expecting a JSON file, using 'application/json' will make sure that\
-        the correct files are used without the developer having to write any\
-        more code.
-        :type mime: str
+        Raises:
+            GMException -- if kargvs option key is unknown
+            GMException -- if kargvs option value is of unknown type
+            GMException -- if path name already exists
+            GMException -- if kargvs.required is True but doesn't exist
         """
         OPTIONS = {
             '_exists': False,
@@ -129,12 +139,19 @@ class Paths:
         Paths.__PATHS__[name] = OPTIONS
 
     def get(self, name, mime=None):
-        """ This function allows you to get a path/resource by name that has
+        """This function allows you to get a path/resource by name that has
         been registered
 
-        :param name: The name that you can to get
-        :type name: type str
+        Arguments:
+            name {str} -- the name that you can to get
+
+        Keyword Arguments:
+            mime {str} -- the mime type that the file must be (default: {None})
+
+        Returns:
+            str -- path based off the name provided
         """
+
         if Paths.__PATHS__.get(name):
             path = Paths.__PATHS__[name]['path']
             if mime is not None:
@@ -143,20 +160,35 @@ class Paths:
         return None
 
     def getFull(self, name):
-        """ This function will get all the details associated to a path.
+        """This function will get all the details associated to a path.
 
-        :param name: The name that you can to get
-        :type name: type str
+        Arguments:
+            name {str} -- the name that you can to get
+
+        Returns:
+            dict -- return the full details of the path
         """
+
         if Paths.__PATHS__.get(name):
             return Paths.__PATHS__[name]
         return None
 
     def check(self, path, mime=None):
-        """ The check function allows you to
+        """The check function allows you to provide a path and perform various
+        checks. This will return if those checks were sucessful.
+
+        Checks:
+          - Does the path exist?
+          - Does the provided mime type match?
 
         Arguments:
-            path {[str]} -- [description]
+            path {str} -- path that the checked will be performed against
+
+        Keyword Arguments:
+            mime {str} -- the mime type that the file must be (default: {None})
+
+        Returns:
+            bool -- return the value
         """
 
         if not exists(path):
@@ -172,15 +204,20 @@ class Paths:
 
     def clear(self):
         """ This function will reset/clear the current paths added in the
-        Paths() class
+        Paths() class.
         """
         Paths.__PATHS__ = {}
 
     def remove(self, name):
-        """ The remove function deletes a path by name
-        :param name: Name of the path that you want to delete
-        :type name: type str
+        """The remove function deletes a path by name.
+
+        Arguments:
+            name {str} -- Name of the path that you want to delete
+
+        Raises:
+            GMException -- if the path does not exist
         """
+
         if Paths.__PATHS__.get(name):
             Paths.__PATHS__.pop(name)
         else:
@@ -188,14 +225,17 @@ class Paths:
 
     @staticmethod
     def create(path, is_directory=False):
-        """Create is a static function that will create files or directories\
+        """Create is a static function that will create files or directories
         on behalf other the programmer.
 
-        :param path: path of the file/directory you want to create
-        :type path: str
-        :param is_directory: is the path a directory?
-        :type is_directory: boot (default: {False})
+        Arguments:
+            path {str} -- the path you want
+
+        Keyword Arguments:
+            is_directory {bool} -- is it a directory you want to create?
+            (default: {False})
         """
+
         if is_directory:
             path = path if path.endswith('') else path.rstrip('/')
             makedirs(path, exist_ok=True)
@@ -208,15 +248,17 @@ class Paths:
         os.path.join() function except it performs some security checks if
         Paths.security_checks is set to true.
 
-        :param root: the root directory
-        :type root: str
+        Arguments:
+            root {str} -- the root directory
+            *paths {str} -- list of paths to join
 
-        :param paths: the different paths to be joined with the root directory
-        :type paths: list
+        Raises:
+            GMSecurity -- when a security issue occurs
 
-        :returns: the full string of the concatinated paths
-        :rtype: str
+        Returns:
+            str -- the full string of the concatinated paths
         """
+
         _path = join(root, *paths)
 
         # TODO: perform checks
@@ -230,7 +272,24 @@ class Paths:
 
     @staticmethod
     def checkMime(path, mime=None):
-        """ Checking file mime """
+        """This function allows a user to check if a path provided is the type
+        that is expected using mime file types.
+
+        Arguments:
+            path {str} -- path that will be checked
+
+        Keyword Arguments:
+            mime {str} -- if a mime is provided, the check will be performed.
+            if not mime type is provided, the mimetype is returned.
+            (default: {None})
+
+        Raises:
+            GMSecurity -- if a mime is provided and the file does not match
+
+        Returns:
+            str,bool -- string of the mime from the file or True if sucessful
+        """
+
         mime_type, _strict = MimeTypes().guess_type(path)
 
         if mime is not None:
@@ -244,6 +303,16 @@ class Paths:
         return True
 
     def defaults(self):
+        """Set multiple default paths
+
+        Paths created:
+        - cwd -- Current Working Directory
+        - project -- The location where the project is stored
+        - project-lib -- local project library directory
+        - project-data -- local project data storage area
+        - config-project -- local project config file stored
+        """
+
         __project__ = modules['__main__']
         if hasattr(__project__, '__file__'):
             # Add standard project paths
@@ -270,6 +339,14 @@ class Paths:
             )
 
     def __export__(self):
+        """When the object is exported, this is the returned values not the
+        whole object. This is used with the `Paths.load()` function to load
+        the options back into the class.
+
+        Returns:
+            dict -- exported dictorary
+        """
+
         exp = {
             'duplications': self.duplications,
             'security_checks': self.security_checks,

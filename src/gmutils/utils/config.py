@@ -22,7 +22,6 @@ class Config:
 
     paths = Paths()
 
-
     @staticmethod
     def load():
         """ The load function runs though a predeterminded list of of loading
@@ -43,6 +42,17 @@ class Config:
 
     @staticmethod
     def loadFile(path_file):
+        """You can load a config from file from this function. This is where
+        addition support for different loads can be placed.
+
+        Arguments:
+            path_file {str} -- path to a configuration file
+
+        Raises:
+            GMException -- If the configuration file doesn't match the
+            critiria, this exception will be thrown.
+        """
+
         if Config.paths.check(path_file, mime='application/json'):
             with open(path_file, 'r') as config_file:
                 conf = loads(config_file.read())
@@ -53,6 +63,17 @@ class Config:
 
     @staticmethod
     def loadDict(config_dct):
+        """The loadDict function allows for dict objects to be loaded into the
+        Config() class.
+
+        Arguments:
+            config_dct {dict} -- the dict to be loaded into Config()
+
+        Raises:
+            GMException -- If a object that isn't a `dict`, this error will be
+            thrown
+        """
+
         if not isinstance(config_dct, dict):
             raise GMException('Config.load only supports dicts')
 
@@ -81,6 +102,10 @@ class Config:
 
     @staticmethod
     def initCLI():
+        """This allows for an application to have an initial CLI flow for
+        standard arguments.
+        """
+
         from gmutils.helpers.helpme_printing import Printing
         err = None
 
@@ -103,15 +128,15 @@ class Config:
         if err is not None:
             Printing.error('CLI', str(err), err)
 
-
     @staticmethod
     def isTesting():
-        """ This function is used to determine if the current enviroment is for
+        """This function is used to determine if the current enviroment is for
         testing or production.
 
-        :return: returns a boolean if the current system is in testing or prod
-        :rtype: boolean
+        Returns:
+            bool -- if the current system is in testing or prod
         """
+
         test_strings = [
             'TEST', 'TESTING', 'DEV', 'DEVELOPMENT'
         ]
@@ -119,10 +144,14 @@ class Config:
 
     @staticmethod
     def haltThreads(name=None):
-        """ This function is used to stop all registered threads added to the
+        """This function is used to stop all registered threads added to the
         `Config.THREADS` list. This will set the `Config.HALT` boolean to True
         which should make stop threads from executing if they are using the
         `helpme_thread` wrappers.
+
+        Keyword Arguments:
+            name {str} -- name of the group of threads that you want to
+            shutdown (default: {None})
         """
         # TODO: add support for `name` halting functionality
         Config.HALT = True
@@ -134,6 +163,16 @@ class Config:
 
     @staticmethod
     def export(path=None, export_object=None, depth=1):
+        """This function allows for simple exporting funionality.
+
+        Keyword Arguments:
+            path {str} -- path for the output to be saved too (default: {None})
+            export_object {object} -- arbatiry object (default: {Config})
+            depth {int} -- the depth of the exporting (default: {1})
+
+        Returns:
+            dict -- returns a dictonary for exporting if path is not set
+        """
 
         def _export_recursively(current_object, current_depth=0):
             DATA = {}
@@ -178,5 +217,4 @@ class Config:
                     dumps(EXPORT_DATA, indent=2, sort_keys=True)
                 )
         else:
-            from gmutils.helpers.helpme_printing import Printing
-            Printing.data('Config()', dumps(EXPORT_DATA, indent=2, sort_keys=True))
+            return EXPORT_DATA

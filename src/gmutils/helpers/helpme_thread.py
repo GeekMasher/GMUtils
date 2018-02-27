@@ -8,6 +8,10 @@ from gmutils.helpers.helpme_printing import Printing
 
 
 def main():
+    """The main function allows an applications main thread to do nothing
+    except halt all threads on KeyboardInterrupt.
+    """
+
     while True:
         try:
             time.sleep(.25)
@@ -23,40 +27,38 @@ def main():
 
     Config.haltThreads()
 
+
 def createThreads(name, thread_count=1, waitfor=0):
-    """ The createThreads() function is a Python wrapper that allows you to
-    quickly and easily create thead-able tasks.
+    """This is a wrapping / annotation to allow applications to wrapper
+    functions that they want to thread quickly. This allows you to quickly
+    spwan threads by wrapping functions
 
-    If the thead_count is greater than 1, a `-` separator and an interger will
-    be attached automatically to the end of the name string.
+    Examples:
+        @createThreads('group')
+        def testFunctions():
+            pass
 
-    Example:
-    createThreads('test', thread_count=3)
+    Arguments:
+        name {str} -- name of the groups of threads
 
-        <Thread name='test-01' />
-        <Thread name='test-02' />
-        <Thread name='test-03' />
-
-    :param name: The name of the thread
-    :type name: type str
-    :param thread_count: The number of threads that will be spawned
-    :type thread_count: type int
-    :param waitfor: The wait timer between function execution
-    :type waitfor: type double
+    Keyword Arguments:
+        thread_count {int} -- the number of threads spawned (default: {1})
+        waitfor {int} -- default wait time between function executions
+        (default: {0})
     """
-    
-    def thread_wrapper(func):       
+
+    def thread_wrapper(func):
         def thread_call(*args, **kwargs):
             ret_val = None
             while not Config.HALT:
                 time.sleep(waitfor)
                 ret_val = func(*args, **kwargs)
-            
+
             return ret_val
 
         for thread_id in range(1, thread_count+1):
             name_thread = '{}-{:02d}'.format(name, thread_id)
-            
+
             new_thread = threading.Thread(
                 name=name_thread, group=None, target=thread_call
             )

@@ -4,20 +4,42 @@ from gmutils.utils.exceptions import GMException
 
 
 def _query_extracter(query):
-    """ This function will return an array of query blocks
+    """This function extracts the different attributes of a query.
+
+    Arguments:
+        query {str} -- the query you want to split up
+
+    Raises:
+        GMException -- if the provided type isn't a string
+
+    Returns:
+        list[str] -- list of query blocks
     """
     if not isinstance(query, str):
         raise GMException('gmutils.get() query needs to be a string')
+
     ret_vals = query.split('.')
     return ret_vals if isinstance(ret_vals, list) else [ret_vals]
 
 
 def _query(query_blocks, dict_object):
-    """
-    """
+    """this function recursivly queries down objects until completed
 
+    Arguments:
+        query_blocks {list[str]} -- list of query blocks
+        dict_object {object} -- arbitrary object
+
+    Raises:
+        GMException -- when the dict_object isn't a supported type
+
+    Returns:
+        object -- returns the arbitrary value found at the end of the query, or
+        None/null
+    """
     if not isinstance(dict_object, (dict, list)):
-        raise GMException('gmutils.get() myobject needs to be of type dict or list')
+        raise GMException(
+            'gmutils.get() myobject needs to be of type dict or list'
+        )
 
     def _recursive_query(current_block, remaining_blocks, current_object):
         if current_block == '':
@@ -30,7 +52,9 @@ def _query(query_blocks, dict_object):
             if not end and current_object.get(current_block):
                 new_block = remaining_blocks.pop(0)
                 return _recursive_query(
-                    new_block, remaining_blocks, current_object.get(current_block)
+                    new_block, remaining_blocks, current_object.get(
+                        current_block
+                    )
                 )
             elif current_object.get(current_block):
                 return current_object.get(current_block)
@@ -45,20 +69,20 @@ def _query(query_blocks, dict_object):
 
 
 def get(myobject, query, default=None):
-    """ This function allows you to query a dict object to get the value
+    """This function allows you to query a dict object to get the value
     recursively through dicts and array's, returning the value found at the
     end of the query chain.
 
-    If no value is found, return the `default` object if it's set.
+    Arguments:
+        myobject {object} -- dictionary or array of objects
+        query {str} -- query string
 
-    :param myobject: dictionary or array of objects
-    :type myobject: type dict OR type list
+    Keyword Arguments:
+        default {object} -- the default return type  (default: {None})
 
-    :param query: query string
-    :type query: str
-
-    :param default: default return value if query returns None
-    :type default: type object
+    Returns:
+        [type] -- return value if query does not return None or returned
+        default object
     """
     query_blocks = _query_extracter(query)
 

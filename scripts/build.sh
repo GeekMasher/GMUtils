@@ -7,3 +7,9 @@ echo "    Testing..."
 echo "========================================================"
 
 python3 -m unittest discover -s 'tests' -p "test_*.py"
+
+echo "========================================================"
+echo "    Documentation..."
+echo "========================================================"
+
+sphinx-build -b html docs/ docs/_build

@@ -14,6 +14,16 @@ class Printing:
 
     @staticmethod
     def colour(colour, text, out=0):
+        """Printing in colour the the text provided
+
+        Arguments:
+            colour {str} -- colour by name
+            text {str} -- text
+
+        Keyword Arguments:
+            out {int} -- std out/err (default: {0})
+        """
+
         colours = {
             'green': '\x1b[0;32;48m',
             'red': '\x1b[0;31;48m',
@@ -45,6 +55,9 @@ class Printing:
 
     @staticmethod
     def banner():
+        """ Printing banner
+        """
+
         if not Config.quite:
             lib = sys.modules.get('__main__')
             if hasattr(lib, "__banner_detailed__"):
@@ -57,11 +70,22 @@ class Printing:
 
     @staticmethod
     def blank():
+        """Enters a blank line in the std out
+        """
+
         if not Config.quite:
             sys.stdout.write('\n')
 
     @staticmethod
     def format(type, code, text):
+        """The formatting
+
+        Arguments:
+            type {str} -- info/debug/error codes
+            code {str} -- simple message/code
+            text {str} -- text for formatting
+        """
+
         types = {
             'info': '+++',
             'data': '```',
@@ -71,7 +95,9 @@ class Printing:
 
         if type in types:
             if type == 'data':
-                return '[{}] {}\n{}\n[{}]'.format(types[type], code, text, types[type])
+                return '[{}] {}\n{}\n[{}]'.format(
+                    types[type], code, text, types[type]
+                )
             else:
                 return '[{}] {:<10} - {}'.format(types[type], code, text)
         else:
@@ -79,6 +105,13 @@ class Printing:
 
     @staticmethod
     def info(code, text):
+        """Printing infomation
+
+        Arguments:
+            code {str} -- simple message
+            text {str} -- text
+        """
+
         s = Printing.format('info', code, text)
 
         if not Config.quite:
@@ -88,13 +121,31 @@ class Printing:
 
     @staticmethod
     def data(title, text):
+        """Printing of data
+
+        Arguments:
+            title {str} -- title of the data
+            text {str} -- data to be printed
+        """
+
         s = Printing.format('data', title, text)
 
         if not Config.quite:
             Printing.colour('blue', s)
 
     @staticmethod
-    def error(code, text, exp=False):
+    def error(code, text, exp=None):
+        """Printing Errors
+
+        Arguments:
+            code {str} -- error code message
+            text {str} -- error message
+
+        Keyword Arguments:
+            exp {Excecption} -- exception thrown by an applciation
+            (default: {None})
+        """
+
         s = Printing.format('error', code, text+'\n')
 
         if not Config.quite:
@@ -104,12 +155,11 @@ class Printing:
 
         if exp:
             logger.warning('Printing.error() with exception is not implemented')
-            return
 
-            exc_type, exc_value, exc_tb = sys.exc_info()
-            tbe = traceback.TracebackException(
-                exc_type, exc_value, exc_tb,
-            )
-            if not Config.quite:
-                Printing.colour('red', tbe, 1)
-            logger.error(tbe)
+            # exc_type, exc_value, exc_tb = sys.exc_info()
+            # tbe = traceback.TracebackException(
+            #     exc_type, exc_value, exc_tb,
+            # )
+            # if not Config.quite:
+            #     Printing.colour('red', tbe, 1)
+            # logger.error(tbe)
