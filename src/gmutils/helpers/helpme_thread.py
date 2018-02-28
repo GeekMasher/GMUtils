@@ -33,11 +33,6 @@ def createThreads(name, thread_count=1, waitfor=0):
     functions that they want to thread quickly. This allows you to quickly
     spwan threads by wrapping functions
 
-    Examples:
-        @createThreads('group')
-        def testFunctions():
-            pass
-
     Arguments:
         name {str} -- name of the groups of threads
 

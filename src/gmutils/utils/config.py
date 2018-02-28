@@ -49,7 +49,7 @@ class Config:
             path_file {str} -- path to a configuration file
 
         Raises:
-            GMException -- If the configuration file doesn't match the
+            GMException -- If the configuration file doesn't match the\
             critiria, this exception will be thrown.
         """
 
@@ -70,7 +70,7 @@ class Config:
             config_dct {dict} -- the dict to be loaded into Config()
 
         Raises:
-            GMException -- If a object that isn't a `dict`, this error will be
+            GMException -- If a object that isn't a `dict`, this error will be\
             thrown
         """
 

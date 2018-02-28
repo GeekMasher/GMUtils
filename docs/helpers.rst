@@ -13,6 +13,8 @@ Argument
    :members:
    :inherited-members:
 
+.. literalinclude:: ../examples/basic_usage_cli.py
+
 Printing
 ------------------
 .. module:: gmutils.helpers.helpme_printing
@@ -28,3 +30,5 @@ Thread
 .. autofunction:: createThreads
 
 .. autofunction:: main
+
+.. literalinclude:: ../examples/basic_usage_thread.py
