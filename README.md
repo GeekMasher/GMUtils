@@ -3,6 +3,10 @@ GeekMasher's Open Source Python Utilities Library
 
 ![GeekMasher GMUtils Banner](./docs/assets/banner.png)
 
+GMUtils is used to assist Python developers perform certain tasks quicker then before with many standard utilities built in.
+
+Check out [geekmasher.github.io/GMUtils/](https://geekmasher.github.io/GMUtils/) for more details.
+
 ## Installing
 
 Install is as simple as:
@@ -11,15 +15,6 @@ python3 ./setup.py install
 ```
 
 **Note: This might require root access to install**
-
-## Running Unit tests
-
-I do love unit tests and making sure my software is as reliable as possible without breaking my own and other peoples code.
-
-***Run unit tests:***
-```bash
-python3 -m unittest discover -s 'tests' -p "test_*.py"
-```
 
 ## Documentation
 
@@ -49,6 +44,15 @@ gh-pages -d docs/_build/ -t
 ```
 
 Please find document at [geekmasher.github.io/GMUtils/](https://geekmasher.github.io/GMUtils/)
+
+## Running Unit tests
+
+I do love unit tests and making sure my software is as reliable as possible without breaking my own and other peoples code.
+
+***Run unit tests:***
+```bash
+python3 -m unittest discover -s 'tests' -p "test_*.py"
+```
 
 ## Contributing
 
