@@ -1,0 +1,567 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Utilities &#8212; GMUtils 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Helpers" href="helpers.html" />
+    <link rel="prev" title="Welcome to GMUtils!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="utilities">
+<span id="utils"></span><h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+<p>This part of the documentation covers all the utilities of GMUtils.</p>
+<div class="section" id="module-gmutils.utils.config">
+<span id="config-object"></span><h2>Config Object<a class="headerlink" href="#module-gmutils.utils.config" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gmutils.utils.config.Config">
+<em class="property">class </em><code class="descclassname">gmutils.utils.config.</code><code class="descname">Config</code><a class="headerlink" href="#gmutils.utils.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="gmutils.utils.config.Config.ENV">
+<code class="descname">ENV</code><a class="headerlink" href="#gmutils.utils.config.Config.ENV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The ENV attribute allows you to dictate which enviroment your current code is runing in</p>
+<dl class="attribute">
+<dt id="gmutils.utils.config.Config.THREADS">
+<code class="descname">THREADS</code><a class="headerlink" href="#gmutils.utils.config.Config.THREADS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This is a list of current running threads</p>
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.export">
+<em class="property">static </em><code class="descname">export</code><span class="sig-paren">(</span><em>path=None</em>, <em>export_object=None</em>, <em>depth=1</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows for simple exporting funionality.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first simple">
+<li><strong>{str} -- path for the output to be saved too</strong><strong> (</strong><strong>default</strong> (<em>path</em>) – {None})</li>
+<li><strong>{object} -- arbatiry object</strong><strong> (</strong><strong>default</strong> (<em>export_object</em>) – {Config})</li>
+<li><strong>{int} -- the depth of the exporting</strong><strong> (</strong><strong>default</strong> (<em>depth</em>) – {1})</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">dict – returns a dictonary for exporting if path is not set</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.haltThreads">
+<em class="property">static </em><code class="descname">haltThreads</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.haltThreads" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is used to stop all registered threads added to the
+<cite>Config.THREADS</cite> list. This will set the <cite>Config.HALT</cite> boolean to True
+which should make stop threads from executing if they are using the
+<cite>helpme_thread</cite> wrappers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>{str} -- name of the group of threads that you want to</strong> (<em>name</em>) – </li>
+<li><strong>(</strong><strong>default</strong> (<em>shutdown</em>) – {None})</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.initCLI">
+<em class="property">static </em><code class="descname">initCLI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.initCLI" title="Permalink to this definition">¶</a></dt>
+<dd><p>This allows for an application to have an initial CLI flow for
+standard arguments.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.isTesting">
+<em class="property">static </em><code class="descname">isTesting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.isTesting" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is used to determine if the current enviroment is for
+testing or production.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bool – if the current system is in testing or prod</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>The load function runs though a predeterminded list of of loading
+paths, env vars and command argvs.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.loadDict">
+<em class="property">static </em><code class="descname">loadDict</code><span class="sig-paren">(</span><em>config_dct</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The loadDict function allows for dict objects to be loaded into the
+Config() class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{dict} -- the dict to be loaded into Config</strong><strong>(</strong><strong>)</strong> (<em>config_dct</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">GMException – If a object that isn’t a <cite>dict</cite>, this error will be            thrown</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.config.Config.loadFile">
+<em class="property">static </em><code class="descname">loadFile</code><span class="sig-paren">(</span><em>path_file</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>You can load a config from file from this function. This is where
+addition support for different loads can be placed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- path to a configuration file</strong> (<em>path_file</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">GMException – If the configuration file doesn’t match the            critiria, this exception will be thrown.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gmutils.utils.paths">
+<span id="paths-object"></span><h2>Paths Object<a class="headerlink" href="#module-gmutils.utils.paths" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gmutils.utils.paths.Paths">
+<em class="property">class </em><code class="descclassname">gmutils.utils.paths.</code><code class="descname">Paths</code><span class="sig-paren">(</span><em>**kargvs</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="gmutils.utils.paths.Paths.__export__">
+<code class="descname">__export__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.__export__" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the object is exported, this is the returned values not the
+whole object. This is used with the <cite>Paths.load()</cite> function to load
+the options back into the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict – exported dictorary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kargvs</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Paths() class supplies Utils with an interface to set, get and
+other functionality to GMUtils.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{dict} -- options being set/loaded into Paths</strong><strong>(</strong><strong>)</strong> (<em>**kargvs</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>name</em>, <em>path</em>, <em>**kargvs</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>The add function allows developers to add paths for their project,
+allowing many options for the developer to use.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>{str} -- the name of the resource</strong> (<em>name</em>) – </li>
+<li><strong>{str} -- the path</strong><strong> or </strong><strong>location to a resource</strong> (<em>path</em>) – </li>
+<li><strong>{dict} -- the different path options</strong> (<em>**kargvs</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Options (kargvs):</dt>
+<dd><p class="first">required {bool} – The <cite>required</cite> paramater allows the developer to
+make sure that the file/dir exists before using it. An example of
+this is to check if a config file exists, if it doesn’t an
+exception will be thrown.</p>
+<p>create {bool} – The <cite>create</cite> parameter will create the file for
+the user if the file doesn’t exist already.</p>
+<p>directory {bool} – The <cite>directory</cite> flag is set when a developer
+wants to create/use the path as a directory.</p>
+<p class="last">mime {str} – The <cite>mime</cite> paramater allows for the developer to
+quickly check the file type before its used. An example of this is
+if you are expecting a JSON file, using ‘application/json’ will
+make sure that the correct files are used without the developer
+having to write any more code.</p>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li>GMException – if kargvs option key is unknown</li>
+<li>GMException – if kargvs option value is of unknown type</li>
+<li>GMException – if path name already exists</li>
+<li>GMException – if kargvs.required is True but doesn’t exist</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.check">
+<code class="descname">check</code><span class="sig-paren">(</span><em>path</em>, <em>mime=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>The check function allows you to provide a path and perform various
+checks. This will return if those checks were sucessful.</p>
+<dl class="docutils">
+<dt>Checks:</dt>
+<dd><ul class="first last simple">
+<li>Does the path exist?</li>
+<li>Does the provided mime type match?</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- path that the checked will be performed against</strong> (<em>path</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><strong>{str} -- the mime type that the file must be</strong><strong> (</strong><strong>default</strong> (<em>mime</em>) – {None})</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bool – return the value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.paths.Paths.checkMime">
+<em class="property">static </em><code class="descname">checkMime</code><span class="sig-paren">(</span><em>path</em>, <em>mime=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.checkMime" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows a user to check if a path provided is the type
+that is expected using mime file types.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>{str} -- path that will be checked</strong> (<em>path</em>) – </p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first simple">
+<li><strong>{str} -- if a mime is provided</strong><strong>, </strong><strong>the check will be performed.</strong> (<em>mime</em>) – </li>
+<li><strong>not mime type is provided</strong><strong>, </strong><strong>the mimetype is returned.</strong> (<em>if</em>) – </li>
+<li><strong>(</strong><strong>default</strong> – {None})</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">GMSecurity – if a mime is provided and the file does not match</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">str,bool – string of the mime from the file or True if sucessful</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will reset/clear the current paths added in the
+Paths() class.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.utils.paths.Paths.create">
+<em class="property">static </em><code class="descname">create</code><span class="sig-paren">(</span><em>path</em>, <em>is_directory=False</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create is a static function that will create files or directories
+on behalf other the programmer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>{str} -- the path you want</strong> (<em>path</em>) – </p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>{bool} -- is it a directory you want to create?</strong> (<em>is_directory</em>) – </li>
+<li><strong>(</strong><strong>default</strong> – {False})</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.defaults">
+<code class="descname">defaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set multiple default paths</p>
+<p>Paths created:
+- cwd – Current Working Directory
+- project – The location where the project is stored
+- project-lib – local project library directory
+- project-data – local project data storage area
+- config-project – local project config file stored</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>mime=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows you to get a path/resource by name that has
+been registered</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- the name that you can to get</strong> (<em>name</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><strong>{str} -- the mime type that the file must be</strong><strong> (</strong><strong>default</strong> (<em>mime</em>) – {None})</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">str – path based off the name provided</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.getFull">
+<code class="descname">getFull</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.getFull" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will get all the details associated to a path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- the name that you can to get</strong> (<em>name</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dict – return the full details of the path</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>root</em>, <em>*paths</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Paths.join() function is just a wrapper on-top of the standard
+os.path.join() function except it performs some security checks if
+Paths.security_checks is set to true.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>{str} -- the root directory</strong> (<em>root</em>) – </li>
+<li><strong>{str} -- list of paths to join</strong> (<em>*paths</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">GMSecurity – when a security issue occurs</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">str – the full string of the concatinated paths</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>**kargvs</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Path.load() function is used for loads all the projects
+predetermined path variables. Normally these are defined in the
+projects <cite>config.json</cite> file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{dict} -- options being loaded into Paths</strong><strong>(</strong><strong>)</strong> (<em>**kargvs</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.utils.paths.Paths.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.paths.Paths.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>The remove function deletes a path by name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- Name of the path that you want to delete</strong> (<em>name</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">GMException – if the path does not exist</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gmutils.utils.get">
+<span id="get-query-function"></span><h2>Get Query Function<a class="headerlink" href="#module-gmutils.utils.get" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gmutils.utils.get.get">
+<code class="descclassname">gmutils.utils.get.</code><code class="descname">get</code><span class="sig-paren">(</span><em>myobject</em>, <em>query</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.get.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function allows you to query a dict object to get the value
+recursively through dicts and array’s, returning the value found at the
+end of the query chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>{object} -- dictionary</strong><strong> or </strong><strong>array of objects</strong> (<em>myobject</em>) – </li>
+<li><strong>{str} -- query string</strong> (<em>query</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first"><strong>{object} -- the default return type</strong><strong>  (</strong><strong>default</strong> (<em>default</em>) – {None})</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">[type] – return value if query does not return None or returned
+default object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gmutils.utils.exceptions">
+<span id="gmutils-exceptions"></span><h2>GMUtils Exceptions<a class="headerlink" href="#module-gmutils.utils.exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gmutils.utils.exceptions.GMException">
+<em class="property">class </em><code class="descclassname">gmutils.utils.exceptions.</code><code class="descname">GMException</code><a class="headerlink" href="#gmutils.utils.exceptions.GMException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic Exception</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gmutils.utils.exceptions.GMSecurity">
+<em class="property">class </em><code class="descclassname">gmutils.utils.exceptions.</code><code class="descname">GMSecurity</code><a class="headerlink" href="#gmutils.utils.exceptions.GMSecurity" title="Permalink to this definition">¶</a></dt>
+<dd><p>When security issues occurs inside GMUtils, this will be thrown</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utilities</a><ul>
+<li><a class="reference internal" href="#module-gmutils.utils.config">Config Object</a></li>
+<li><a class="reference internal" href="#module-gmutils.utils.paths">Paths Object</a></li>
+<li><a class="reference internal" href="#module-gmutils.utils.get">Get Query Function</a></li>
+<li><a class="reference internal" href="#module-gmutils.utils.exceptions">GMUtils Exceptions</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to GMUtils!</a></li>
+      <li>Next: <a href="helpers.html" title="next chapter">Helpers</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/utils.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, GeekMasher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/utils.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

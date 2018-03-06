@@ -1,0 +1,428 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Helpers &#8212; GMUtils 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Utilities" href="utils.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="helpers">
+<span id="id1"></span><h1>Helpers<a class="headerlink" href="#helpers" title="Permalink to this headline">¶</a></h1>
+<p>This part of the documentation covers all the helpers of GMUtils.</p>
+<div class="section" id="module-gmutils.helpers.helpme_argument">
+<span id="argument"></span><h2>Argument<a class="headerlink" href="#module-gmutils.helpers.helpme_argument" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gmutils.helpers.helpme_argument.Arguments">
+<em class="property">class </em><code class="descclassname">gmutils.helpers.helpme_argument.</code><code class="descname">Arguments</code><span class="sig-paren">(</span><em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.__export__">
+<code class="descname">__export__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.__export__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export functionality for Config().export()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict – dict to export</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arguments allows you to create a more powerful experience with
+Argument parsing and loading from configuration files.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{dict} -- argument options</strong> (<em>**kargvs</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.add_argument">
+<code class="descname">add_argument</code><span class="sig-paren">(</span><em>dest</em>, <em>...</em>, <em>name=value</em>, <em>...</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.add_argument" title="Permalink to this definition">¶</a></dt>
+<dd><p>add_argument(option_string, option_string, …, name=value, …)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.defaults">
+<code class="descname">defaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default arguments that get added to Arguments()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>message: string</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a usage message incorporating the message to stderr and
+exits.</p>
+<p>If you override this in a subclass, it should not return – it
+should either exit or raise an exception.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>argument</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the argument by name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{str} -- argument name</strong> (<em>argument</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">GMException – if the argument does not exist</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">object – arguments</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gmutils.helpers.helpme_argument.Arguments.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>**options</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_argument.Arguments.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>The load function allows for</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>{dict} -- the different options + arguments</strong> (<em>**options</em>) – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+
+<span class="kn">from</span> <span class="nn">gmutils</span> <span class="k">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">gmutils.helpers.helpme_argument</span> <span class="k">import</span> <span class="n">Arguments</span>
+
+<span class="c1"># Init project variables</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
+<span class="vm">__name__</span> <span class="o">=</span> <span class="s1">&#39;MyExampleProject&#39;</span>
+
+<span class="n">__description__</span> <span class="o">=</span> <span class="s1">&#39;My Example CLI&#39;</span>
+
+<span class="n">__banner__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2"> _____                          _       ______</span>
+<span class="s2">|  ___|                        | |      | ___ </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">| |____  ____ _ _ __ ___  _ __ | | ___  | |_/ / __ _ _ __  _ __   ___ _ __</span>
+<span class="s2">|  __\ \/ / _` | &#39;_ ` _ \| &#39;_ \| |/ _ \ | ___ \/ _` | &#39;_ \| &#39;_ \ / _ \ &#39;__|</span>
+<span class="s2">| |___&gt;  &lt; (_| | | | | | | |_) | |  __/ | |_/ / (_| | | | | | | |  __/ |</span>
+<span class="s2">\____/_/\_\__,_|_| |_| |_| .__/|_|\___| \____/ \__,_|_| |_|_| |_|\___|_|</span>
+<span class="s2">                         | |</span>
+<span class="s2">                         |_|</span><span class="se">\</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># Run the GMUtils simple init cli function</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">initCLI</span><span class="p">()</span>
+
+<span class="c1"># Many standard arguments will be added by the gmutils module such as</span>
+<span class="c1"># `-c` or `--config` to set the locaitons of multiple configuration files</span>
+<span class="c1"># `-vvv` or `--verbose` to set the application verbosity level</span>
+<span class="c1"># `-v` or `--version` to display the softwares version and exit the program</span>
+
+<span class="c1"># Adding arguments is the same as using the standard `argparse` module</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">arguments</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+    <span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;-my-argument&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-gmutils.helpers.helpme_printing">
+<span id="printing"></span><h2>Printing<a class="headerlink" href="#module-gmutils.helpers.helpme_printing" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gmutils.helpers.helpme_printing.Printing">
+<em class="property">class </em><code class="descclassname">gmutils.helpers.helpme_printing.</code><code class="descname">Printing</code><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.banner">
+<em class="property">static </em><code class="descname">banner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.banner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Printing banner</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.blank">
+<em class="property">static </em><code class="descname">blank</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.blank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enters a blank line in the std out</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.colour">
+<em class="property">static </em><code class="descname">colour</code><span class="sig-paren">(</span><em>colour</em>, <em>text</em>, <em>out=0</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.colour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Printing in colour the the text provided</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>{str} -- colour by name</strong> (<a class="reference internal" href="#gmutils.helpers.helpme_printing.Printing.colour" title="gmutils.helpers.helpme_printing.Printing.colour"><em>colour</em></a>) – </li>
+<li><strong>{str} -- text</strong> (<em>text</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first last"><strong>{int} -- std out/err</strong><strong> (</strong><strong>default</strong> (<em>out</em>) – {0})</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.data">
+<em class="property">static </em><code class="descname">data</code><span class="sig-paren">(</span><em>title</em>, <em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Printing of data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>{str} -- title of the data</strong> (<em>title</em>) – </li>
+<li><strong>{str} -- data to be printed</strong> (<em>text</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.error">
+<em class="property">static </em><code class="descname">error</code><span class="sig-paren">(</span><em>code</em>, <em>text</em>, <em>exp=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Printing Errors</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>{str} -- error code message</strong> (<em>code</em>) – </li>
+<li><strong>{str} -- error message</strong> (<em>text</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>{Excecption} -- exception thrown by an applciation</strong> (<em>exp</em>) – </li>
+<li><strong>(</strong><strong>default</strong> – {None})</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.format">
+<em class="property">static </em><code class="descname">format</code><span class="sig-paren">(</span><em>type</em>, <em>code</em>, <em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>The formatting</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>{str} -- info/debug/error codes</strong> (<em>type</em>) – </li>
+<li><strong>{str} -- simple message/code</strong> (<em>code</em>) – </li>
+<li><strong>{str} -- text for formatting</strong> (<em>text</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gmutils.helpers.helpme_printing.Printing.info">
+<em class="property">static </em><code class="descname">info</code><span class="sig-paren">(</span><em>code</em>, <em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_printing.Printing.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Printing infomation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>{str} -- simple message</strong> (<em>code</em>) – </li>
+<li><strong>{str} -- text</strong> (<em>text</em>) – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gmutils.helpers.helpme_thread">
+<span id="thread"></span><h2>Thread<a class="headerlink" href="#module-gmutils.helpers.helpme_thread" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gmutils.helpers.helpme_thread.createThreads">
+<code class="descclassname">gmutils.helpers.helpme_thread.</code><code class="descname">createThreads</code><span class="sig-paren">(</span><em>name</em>, <em>thread_count=1</em>, <em>waitfor=0</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_thread.createThreads" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a wrapping / annotation to allow applications to wrapper
+functions that they want to thread quickly. This allows you to quickly
+spwan threads by wrapping functions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>{str} -- name of the groups of threads</strong> (<em>name</em>) – </p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first last simple">
+<li><strong>{int} -- the number of threads spawned</strong><strong> (</strong><strong>default</strong> (<em>thread_count</em>) – {1})</li>
+<li><strong>{int} -- default wait time between function executions</strong> (<em>waitfor</em>) – </li>
+<li><strong>(</strong><strong>default</strong> – {0})</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gmutils.helpers.helpme_thread.main">
+<code class="descclassname">gmutils.helpers.helpme_thread.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.helpers.helpme_thread.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main function allows an applications main thread to do nothing
+except halt all threads on KeyboardInterrupt.</p>
+</dd></dl>
+
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+
+<span class="kn">from</span> <span class="nn">gmutils</span> <span class="k">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">gmutils.helpers.helpme_thread</span> <span class="k">import</span> <span class="n">createThreads</span>
+
+<span class="c1"># Define a function that you want to thread and wrap the function with</span>
+<span class="c1"># `createThreads()` and setting a name you want to give the function.</span>
+
+<span class="nd">@createThreads</span><span class="p">(</span><span class="s1">&#39;my-little-function&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">simple_function</span><span class="p">():</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># You can also create multiple threads in the same way as before</span>
+<span class="c1"># This will spawn 3 threads at the same time </span>
+
+<span class="nd">@createThreads</span><span class="p">(</span><span class="s1">&#39;my-many-functions&#39;</span><span class="p">,</span> <span class="n">thread_count</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">simple_func2</span><span class="p">():</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># You can also add pauses between each thread function call</span>
+
+<span class="nd">@createThreads</span><span class="p">(</span><span class="s1">&#39;my-slow-function&#39;</span><span class="p">,</span> <span class="n">waitfor</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">simple_func3</span><span class="p">():</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># You can also get access to the Thread objects that have been created</span>
+<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">Config</span><span class="o">.</span><span class="n">THREADS</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">thread</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># Kill the function and threads using:</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">haltThreads</span><span class="p">()</span>
+
+<span class="c1"># Note: This will kill all the threads you have running</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Helpers</a><ul>
+<li><a class="reference internal" href="#module-gmutils.helpers.helpme_argument">Argument</a></li>
+<li><a class="reference internal" href="#module-gmutils.helpers.helpme_printing">Printing</a></li>
+<li><a class="reference internal" href="#module-gmutils.helpers.helpme_thread">Thread</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="utils.html" title="previous chapter">Utilities</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/helpers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, GeekMasher.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/helpers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
