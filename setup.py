@@ -12,6 +12,10 @@ def read(file_path):
         exec(file_reader.read(), ret_value)
     return ret_value
 
+def read_requirements():
+    with open('requirements.txt', 'r') as file_reader:
+        return [line.rstrip() for line in file_reader] 
+
 
 ABOUT = read(join(__SRC__, 'gmutils', '__version__.py'))
 
@@ -41,6 +45,8 @@ setup(
     exclude_package_data={
         '': ['README.md']
     },
+
+    install_requires=read_requirements(),
     include_package_data=True,
 
     scripts = {
@@ -48,6 +54,19 @@ setup(
     },
 
     classifiers=[
-
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Environment :: Web Environment",
+        "Intended Audience :: End Users/Desktop",
+        "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
+        "License :: OSI Approved :: MIT License",
+        "Natural Language :: English",
+        "Operating System :: MacOS",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6"
     ]
 )
