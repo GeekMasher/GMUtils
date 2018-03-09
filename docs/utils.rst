@@ -32,6 +32,15 @@ Paths Object
    :inherited-members:
 
 
+Constants Object
+------------------
+.. module:: gmutils.utils.constants
+
+.. autoclass:: Constants
+   :members:
+   :inherited-members:
+
+
 Get Query Function
 ------------------
 .. module:: gmutils.utils.get
