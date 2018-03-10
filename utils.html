@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Utilities &#8212; GMUtils 0.1.0 documentation</title>
+    <title>Utilities &#8212; GMUtils 0.1.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -59,9 +59,9 @@
 <dd></dd></dl>
 
 <p>This is a list of current running threads</p>
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.export">
-<em class="property">static </em><code class="descname">export</code><span class="sig-paren">(</span><em>path=None</em>, <em>export_object=None</em>, <em>depth=1</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.export" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">export</code><span class="sig-paren">(</span><em>path=None</em>, <em>export_object=None</em>, <em>depth=1</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.export" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function allows for simple exporting funionality.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -82,9 +82,9 @@
 </table>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.haltThreads">
-<em class="property">static </em><code class="descname">haltThreads</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.haltThreads" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">haltThreads</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.haltThreads" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is used to stop all registered threads added to the
 <cite>Config.THREADS</cite> list. This will set the <cite>Config.HALT</cite> boolean to True
 which should make stop threads from executing if they are using the
@@ -104,16 +104,16 @@ which should make stop threads from executing if they are using the
 </table>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.initCLI">
-<em class="property">static </em><code class="descname">initCLI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.initCLI" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">initCLI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.initCLI" title="Permalink to this definition">¶</a></dt>
 <dd><p>This allows for an application to have an initial CLI flow for
 standard arguments.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.isTesting">
-<em class="property">static </em><code class="descname">isTesting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.isTesting" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">isTesting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.isTesting" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is used to determine if the current enviroment is for
 testing or production.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -126,16 +126,16 @@ testing or production.</p>
 </table>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.load">
-<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.load" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>The load function runs though a predeterminded list of of loading
 paths, env vars and command argvs.</p>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.loadDict">
-<em class="property">static </em><code class="descname">loadDict</code><span class="sig-paren">(</span><em>config_dct</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadDict" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">loadDict</code><span class="sig-paren">(</span><em>config_dct</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>The loadDict function allows for dict objects to be loaded into the
 Config() class.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -150,9 +150,9 @@ Config() class.</p>
 </table>
 </dd></dl>
 
-<dl class="staticmethod">
+<dl class="classmethod">
 <dt id="gmutils.utils.config.Config.loadFile">
-<em class="property">static </em><code class="descname">loadFile</code><span class="sig-paren">(</span><em>path_file</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadFile" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">loadFile</code><span class="sig-paren">(</span><em>path_file</em><span class="sig-paren">)</span><a class="headerlink" href="#gmutils.utils.config.Config.loadFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>You can load a config from file from this function. This is where
 addition support for different loads can be placed.</p>
 <table class="docutils field-list" frame="void" rules="none">
