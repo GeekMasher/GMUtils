@@ -5,10 +5,14 @@ from os.path import exists, join
 from sys import modules, exit
 from json import loads, dumps
 from inspect import isclass, ismodule
+from logging import getLogger
 
 from gmutils.utils.paths import Paths
 from gmutils.utils.exceptions import GMException, GMSecurity
 from gmutils.helpers.helpme_argument import Arguments
+
+
+logger = getLogger(__name__)
 
 
 class Config:
@@ -22,26 +26,26 @@ class Config:
 
     paths = Paths()
 
-    @staticmethod
-    def load():
+    @classmethod
+    def load(cls):
         """ The load function runs though a predeterminded list of of loading
         paths, env vars and command argvs.
         """
         # load from `Project root`
         pro_path = Config.paths.get('config-project')
         if exists(pro_path):
-            Config.loadFile(pro_path)
+            cls.loadFile(pro_path)
 
         # load from `Env vars`
         env_path = environ.get('PROJECT_CONFIG')
         if env_path is not None and exists(env_path):
-            Config.loadFile(env_path)
+            cls.loadFile(env_path)
 
         # TODO: load from `CLI arguments`
         return
 
-    @staticmethod
-    def loadFile(path_file):
+    @classmethod
+    def loadFile(cls, path_file):
         """You can load a config from file from this function. This is where
         addition support for different loads can be placed.
 
@@ -53,16 +57,16 @@ class Config:
             critiria, this exception will be thrown.
         """
 
-        if Config.paths.check(path_file, mime='application/json'):
+        if cls.paths.check(path_file, mime='application/json'):
             with open(path_file, 'r') as config_file:
                 conf = loads(config_file.read())
 
-            Config.loadDict(conf)
+            cls.loadDict(conf)
         else:
             raise GMException("Configuration file of an unsupport type")
 
-    @staticmethod
-    def loadDict(config_dct):
+    @classmethod
+    def loadDict(cls, config_dct):
         """The loadDict function allows for dict objects to be loaded into the
         Config() class.
 
@@ -78,9 +82,9 @@ class Config:
             raise GMException('Config.load only supports dicts')
 
         for key, value in config_dct.items():
-            if key.startswith('_') or not hasattr(Config, key):
+            if key.startswith('_') or not hasattr(cls, key):
                 continue
-            attr = getattr(Config, key)
+            attr = getattr(cls, key)
             # Make sure it isn't a function
             if callable(attr):
                 continue
@@ -90,18 +94,18 @@ class Config:
                 if hasattr(attr, 'load') and callable(getattr(attr, 'load')):
                     attr.load(**value)
                 # Check if the `__setattr__` function is present
-                elif hasattr(attr, '__setattr__'):
+                else:
                     for attr_k, attr_v in value.items():
-                        attr.__setattr__(attr_k, attr_v)
+                        attr[attr_k] = attr_v
             elif isinstance(value, list):
                 if hasattr(attr, 'append'):
                     for v in value:
                         attr.append(v)
             else:
-                setattr(Config, key, value)
+                setattr(cls, key, value)
 
-    @staticmethod
-    def initCLI():
+    @classmethod
+    def initCLI(cls):
         """This allows for an application to have an initial CLI flow for
         standard arguments.
         """
@@ -109,16 +113,16 @@ class Config:
         from gmutils.helpers.helpme_printing import Printing
         err = None
 
-        Config.arguments._results = Config.arguments.parse_args()
+        cls.arguments._results = cls.arguments.parse_args()
 
         try:
-            if Config.arguments.get('version'):
+            if cls.arguments.get('version'):
                 if hasattr(modules.get('__main__'), '__version__'):
                     print('v' + modules.get('__main__').__version__)
                     exit(0)
-            elif Config.arguments.get('config'):
-                for config in Config.arguments.get('config'):
-                    Config.loadFile(config)
+            elif cls.arguments.get('config'):
+                for config in cls.arguments.get('config'):
+                    cls.loadFile(config)
 
         except (GMException, GMSecurity) as context:
             err = context
@@ -128,8 +132,8 @@ class Config:
         if err is not None:
             Printing.error('CLI', str(err), err)
 
-    @staticmethod
-    def isTesting():
+    @classmethod
+    def isTesting(cls):
         """This function is used to determine if the current enviroment is for
         testing or production.
 
@@ -140,10 +144,10 @@ class Config:
         test_strings = [
             'TEST', 'TESTING', 'DEV', 'DEVELOPMENT'
         ]
-        return True if Config.ENV.upper() in test_strings else False
+        return True if cls.ENV.upper() in test_strings else False
 
-    @staticmethod
-    def haltThreads(name=None):
+    @classmethod
+    def haltThreads(cls, name=None):
         """This function is used to stop all registered threads added to the
         `Config.THREADS` list. This will set the `Config.HALT` boolean to True
         which should make stop threads from executing if they are using the
@@ -161,8 +165,8 @@ class Config:
 
         Config.THREADS = []
 
-    @staticmethod
-    def export(path=None, export_object=None, depth=1):
+    @classmethod
+    def export(cls, path=None, export_object=None, depth=1):
         """This function allows for simple exporting funionality.
 
         Keyword Arguments:
@@ -205,7 +209,7 @@ class Config:
             return DATA
         # default export == `Config()`
         if export_object is None:
-            EXPORT_DATA = _export_recursively(Config)
+            EXPORT_DATA = _export_recursively(cls)
         # Support for arbitrary to be passed in
         else:
             EXPORT_DATA = _export_recursively(export_object)
