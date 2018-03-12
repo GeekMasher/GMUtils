@@ -1,0 +1,32 @@
+{
+    "ENV": "TESTING",
+    "arguments": {
+        "groups": [{
+                "title": "testing_just_title"
+            },
+            {
+                "title": "testing_with_description",
+                "description": "Testing with Description"
+            }
+        ],
+        "parameters": [{
+            "group": "testing_with_description",
+            "options": [
+                "--testing-action-help"
+            ],
+            "help": "Testing the Help function string"
+        }, {
+            "action": "store_true",
+            "group": "testing_with_description",
+            "options": [
+                "--testing-action-true"
+            ]
+        }, {
+            "action": "store_false",
+            "group": "testing_with_description",
+            "options": [
+                "--testing-action-false"
+            ]
+        }]
+    }
+}

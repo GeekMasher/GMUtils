@@ -36,7 +36,7 @@ class Arguments(ArgumentParser):
             **options {dict} -- the different options + arguments
         """
         validator = Validator()
-        
+
         if options.get('groups'):
             for group in options.get('groups'):
                 if not validator.validate(group, GROUPS_SCHEMA):
@@ -71,6 +71,18 @@ class Arguments(ArgumentParser):
                     )
 
     def add_argument(self, *argv, **kargvs):
+        """The add_argument function is a overloaded method of `ArgumentParser`
+        to allow for GMUtils to capture the results. The function works the
+        exact same way at the inherited class.
+
+        Arguments:
+            *argv {str} -- list of options for argument
+            **kargvs {object} -- key value pairs of argument options
+
+        Returns:
+            Action -- returns the argument/action that has been created
+        """
+
         Arguments._report_parameter(
             options=argv,
             **kargvs
@@ -78,6 +90,18 @@ class Arguments(ArgumentParser):
         return super().add_argument(*argv, **kargvs)
 
     def add_argument_group(self, *argv, **kargvs):
+        """The add_argument_group function is a overloaded method of
+        `ArgumentParser` to allow for GMUtils to capture the results. The
+        function works the exact same way at the inherited class.
+
+        Arguments:
+            *argv {str} -- list of names for group
+            **kargvs {object} -- key value pairs of group options
+
+        Returns:
+            ActionGroup -- returns the group/ActionGroup that has been created
+        """
+
         title = argv[0] if len(argv) > 0 else ''
         # If the group already exists
         if self._groups.get(title):
@@ -97,7 +121,6 @@ class Arguments(ArgumentParser):
         )
 
         def _report_group_parameter(*h_argv, **h_kargvs):
-            print('>>>> ' + str(h_argv))
             Arguments._report_parameter(
                 options=h_argv,
                 group=grp.title,
@@ -115,8 +138,14 @@ class Arguments(ArgumentParser):
 
     @staticmethod
     def _report_parameter(**kargvs):
+        """This reporting function logs what arguments are being set in the
+        application.
 
+        Arguments:
+            **kargvs {dict} -- key value pairs of the arguments being set
+        """
         from gmutils import Config
+        # ignore anything in this list
         blacklist = ['help']
         if kargvs.get('action') not in blacklist:
             Config.arguments._parameters.append(kargvs)
@@ -160,7 +189,7 @@ class Arguments(ArgumentParser):
 
         Arguments:
             argument {str} -- argument name
-            default {None} -- if the argument does not exist, this is the
+            default {Object} -- if the argument does not exist, this is the
                 return value
 
         Raises:
