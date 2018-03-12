@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
-from os.path import join
-from time import sleep
 
 from gmutils import Config
-from gmutils.helpers.helpme_argument import Arguments
 
 # Init project variables
 __version__ = '0.1.0'
-__name__ = 'MyExampleProject'
+__name__ = 'MySimpleProject'
 
-__description__ = 'My Example CLI'
+__description__ = 'My Simple CLI tool'
 
 __banner__ = """\
  _____                          _       ______
@@ -22,15 +19,12 @@ __banner__ = """\
                          |_|\
 """
 
-# Run the GMUtils simple init cli function
-Config.initCLI()
-
 # Many standard arguments will be added by the gmutils module such as
 # `-c` or `--config` to set the locaitons of multiple configuration files
+# `-q` or `--quiet` to set if the application can print of the console
 # `-vvv` or `--verbose` to set the application verbosity level
 # `-v` or `--version` to display the softwares version and exit the program
+# `--help` to display the help options
 
-# Adding arguments is the same as using the standard `argparse` module
-Config.arguments.add_argument(
-    '-m', '-my-argument', action='store_true'
-)
+# Run the GMUtils simple init cli function
+Config.initCLI()

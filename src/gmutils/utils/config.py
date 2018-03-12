@@ -9,7 +9,6 @@ from logging import getLogger
 
 from gmutils.utils.paths import Paths
 from gmutils.utils.exceptions import GMException, GMSecurity
-from gmutils.helpers.helpme_argument import Arguments
 
 
 logger = getLogger(__name__)
@@ -22,7 +21,7 @@ class Config:
     HALT = False
     THREADS = []
 
-    arguments = Arguments()
+    arguments = None
 
     paths = Paths()
 
