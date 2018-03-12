@@ -95,7 +95,9 @@ class Paths:
 
         # Set options from kargvs
         for key, value in kargvs.items():
-            if key.startswith('_') or OPTIONS.get(key) is None:
+            if key.startswith('_'):
+                continue
+            if OPTIONS.get(key) is None:
                 raise GMException('Unknown key supplied: ' + str(key))
             if not isinstance(value, type(OPTIONS.get(key))):
                 raise GMException(

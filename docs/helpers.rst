@@ -13,7 +13,7 @@ Argument
    :members:
    :inherited-members:
 
-.. literalinclude:: ../examples/basic_usage_cli.py
+.. literalinclude:: ../examples/basic-cli/simple-app.py
 
 Printing
 ------------------
