@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import json
 import unittest
 import threading
 import time
+
+sys.path.append('src')
 
 from gmutils import Config
 from gmutils.utils.exceptions import GMException
@@ -61,4 +64,3 @@ class UtilsConfigTest(unittest.TestCase):
 
         self.assertTrue(EXPORTED_DATA.get('ENV'))
         self.assertEqual(EXPORTED_DATA.get('ENV'), Config.ENV)
-

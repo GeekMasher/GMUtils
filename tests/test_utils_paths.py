@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 
 import os
+import sys
+import shutil
 import unittest
 import threading
-import time
+
+sys.path.append('src')
 
 import gmutils
 
-from gmutils import Config
-from gmutils.utils.exceptions import GMSecurity
+from gmutils import Config, GMException, GMSecurity
 from gmutils.utils.paths import Paths
+
 
 
 class UtilsPathsTest(unittest.TestCase):
@@ -19,6 +22,10 @@ class UtilsPathsTest(unittest.TestCase):
             duplications=True
         )
         self.paths.duplications = False
+
+    def tearDownClass():
+        if os.path.exists('/tmp/gmutils'):
+            shutil.rmtree('/tmp/gmutils')
 
     def tearDown(self):
         self.paths.clear()
@@ -39,18 +46,27 @@ class UtilsPathsTest(unittest.TestCase):
             duplications=True,
             paths={
                 'gmutils_tmp': {
-                    'path': '/tmp/gmutils/'
+                    'path': '/tmp/gmutils/',
+                },
+                'gmutils_create': {
+                    'path': '/tmp/gmutils/random_file_123412354.txt',
+                    'create': True
                 },
                 'gmutils_tmpfile': {
-                    'path': '/tmp/gmutils/test.txt'
+                    'path': '/tmp/gmutils/test.txt',
+                    '__str__': 'test'
                 }
             }
         )
 
         self.assertTrue(self.paths.duplications)
 
-        self.assertEqual(self.paths.get('gmutils_tmpfile'), '/tmp/gmutils/test.txt')
-        self.assertEqual(self.paths.get('gmutils_tmp'), '/tmp/gmutils/')
+        self.assertEqual(
+            self.paths.get('gmutils_tmpfile'), '/tmp/gmutils/test.txt'
+        )
+        self.assertEqual(
+            self.paths.get('gmutils_tmp'), '/tmp/gmutils/'
+        )
 
         full_results_01 = self.paths.getFull('gmutils_tmpfile')
         self.assertFalse(full_results_01['required'])
@@ -62,6 +78,21 @@ class UtilsPathsTest(unittest.TestCase):
         self.assertFalse(full_results_02['create'])
         self.assertTrue(full_results_02['directory'])
 
+        full_results_03 = self.paths.getFull('gmutils_create')
+        self.assertFalse(full_results_03['required'])
+        self.assertTrue(full_results_03['create'])
+        self.assertFalse(full_results_03['directory'])
+
+        self.assertIsNone(self.paths.getFull('random_unknown'))
+
+    def test_02_add(self):
+        
+        with self.assertRaises(GMException) as context:
+            self.paths.add('test_unknown_key', '/tmp/gmutils', testing='test')
+
+        with self.assertRaises(GMException) as context:
+            self.paths.add('test_unknown_key', '/tmp/gmutils', create='test')
+
     def test_03_create(self):
 
         self.paths.add('test_02', '/tmp/gmutils', create=True)
@@ -72,6 +103,13 @@ class UtilsPathsTest(unittest.TestCase):
         # make sure the file was created
         self.assertTrue(os.path.exists('/tmp/gmutils'))
 
+        # create dir
+        Paths.create('/tmp/gmutils/sub_dir', is_directory=True)
+        self.assertTrue(os.path.exists('/tmp/gmutils/sub_dir'))
+        # create file
+        Paths.create('/tmp/gmutils/sub_file.txt')
+        self.assertTrue(os.path.exists('/tmp/gmutils/sub_file.txt'))
+
     def test_04_required(self):
         self.paths.add('test_04', '/tmp/gmutils', required=True)
 
@@ -79,8 +117,10 @@ class UtilsPathsTest(unittest.TestCase):
         self.assertTrue(full_results['required'])
 
         # check if an exception is thrown if the file doesn't exist
-        with self.assertRaises(gmutils.utils.exceptions.GMException) as context:
-            self.paths.add('test_04_1', '/tmp/gmutils/random_path/', required=True)
+        with self.assertRaises(GMException) as context:
+            self.paths.add(
+                'test_04_1', '/tmp/gmutils/random_path/', required=True
+            )
 
     def test_05_join(self):
         join_paths = {
@@ -98,19 +138,35 @@ class UtilsPathsTest(unittest.TestCase):
 
     def test_06_mime(self):
         self.paths.add(
-            'test_06', self.paths.join(self.paths.get('cwd'), 'tests', 'test-data')
+            'test_06', self.paths.join(
+                self.paths.get('cwd'), 'tests', 'test-data'
+            )
         )
 
         self.assertIsNotNone(self.paths.get('test_06'))
         self.assertTrue(os.path.exists(self.paths.get('test_06')))
 
+        json_file = self.paths.join(self.paths.get('test_06'), 'testfile.json')
+
         self.paths.add(
-            'test_06_json',
-            self.paths.join(self.paths.get('test_06'), 'testfile.json'),
+            'test_06_json', json_file,
             mime='application/json'
         )
 
-        with self.assertRaises(gmutils.utils.exceptions.GMSecurity) as context:
+        self.assertTrue(self.paths.check(
+            self.paths.get('test_06_json'), mime='application/json'
+        ))
+
+        self.assertEqual(
+            self.paths.get('test_06_json', mime='application/json'),
+            json_file
+        )
+
+        self.assertFalse(self.paths.check(
+            json_file, mime='application/xml'
+        ))
+
+        with self.assertRaises(GMSecurity) as context:
             self.paths.add(
                 'test_06_xml',
                 self.paths.join(self.paths.get('test_06'), 'testfile.xml'),
@@ -159,6 +215,9 @@ class UtilsPathsTest(unittest.TestCase):
         self.paths.remove('test_10')
         self.assertFalse(self.paths.get('test_10'))
 
+        with self.assertRaises(GMException) as context:
+            self.paths.remove('test_10_14238790')
+
     def test_11_recursive(self):
         rnd_path = '/tmp/gm/random/path/0712346'
         self.paths.add(
@@ -166,5 +225,3 @@ class UtilsPathsTest(unittest.TestCase):
         )
 
         self.assertTrue(os.path.exists(rnd_path))
-
-

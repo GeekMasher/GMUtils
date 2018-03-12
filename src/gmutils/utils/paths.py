@@ -199,7 +199,7 @@ class Paths:
         # Check mime type
         try:
             self.checkMime(path, mime)
-        except GMException as err:
+        except GMSecurity as err:
             return False
 
         return True

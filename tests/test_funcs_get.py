@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
+import os
+import sys
 import unittest
 import threading
 import time
 
-from gmutils import Config
-from gmutils.utils.exceptions import GMException
-from gmutils.utils.get import get, _query_extracter
+sys.path.append('src')
+
+from gmutils import Config, GMException
+from gmutils.utils.functions.get import get, _query_extracter, _query
 
 
 
@@ -25,7 +28,6 @@ class GetTest(unittest.TestCase):
         with self.assertRaises(GMException) as context:
             _query_extracter(0)
 
-
     def test_01_init(self):
         test = {
             'test01': {
@@ -36,7 +38,6 @@ class GetTest(unittest.TestCase):
         self.assertEqual(
             get(test, 'test01.test01_sub'), 'winning'
         )
-
 
     def test_01_simple(self):
         
@@ -68,7 +69,3 @@ class GetTest(unittest.TestCase):
             get(test03, 'test', default='thisiscorrect'),
             'thisiscorrect'
         )
-
-
-
-

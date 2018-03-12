@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
+import os
+import sys
+import time
 import unittest
 import threading
-import time
+
+sys.path.append('src')
 
 from gmutils import Config
 from gmutils.helpers.helpme_thread import createThreads
-
 
 
 class ThreadTest(unittest.TestCase):
@@ -50,4 +53,3 @@ class ThreadTest(unittest.TestCase):
             self.assertEqual(thr.name, 'test_multiple-0{}'.format(index+1))
 
         self.pauseAndStopCurrentTests()
-

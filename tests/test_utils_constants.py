@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import json
 import unittest
 import threading
 import time
+
+sys.path.append('src')
 
 from gmutils.utils.constants import Constants
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from logging import getLogger
 
-from gmutils.utils.get import get as _get
+from gmutils.utils import get as _get
 
 logger = getLogger(__name__)
 

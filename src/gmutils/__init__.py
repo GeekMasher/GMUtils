@@ -2,6 +2,7 @@
 from gmutils.__version__ import *
 
 from gmutils.utils.config import Config
+from gmutils.utils.exceptions import *
 from gmutils.utils.paths import Paths
 from gmutils.helpers.helpme_argument import Arguments
 
